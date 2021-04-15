@@ -20,7 +20,7 @@ P.S.M是后端命名的规范
 
 需求描述分为两个部分：需求介绍、API列表。样例如下：
 
-### 需求介绍： 
+### 需求介绍：
 
 P.S.M:	product.subsys.module
 
@@ -28,13 +28,14 @@ P.S.M:	product.subsys.module
 
 ### API列表：
 
-| 请求类型 | PATH              | 描述               |
-| -------- | ----------------- | ------------------ |
-| GET      | /api/p/s/m/{id}   | 查询单个商家的信息 |
-| GET      | /api/p/s/m/query  | 查询商家列表       |
-| POST     | /api/p/s/m/new    | 新增商家信息       |
-| PUT      | /api/p/s/m/update | 修改商家信息       |
-| DELETE   | /api/p/s/m/{id}   | 删除商家信息       |
+
+| 请求类型 | PATH            | 描述               |
+| ---------- | ----------------- | -------------------- |
+| GET      | /api/p/s/m/{id} | 查询单个商家的信息 |
+| GET      | /api/p/s/m/     | 查询商家列表       |
+| POST     | /api/p/s/m/{id} | 新增商家信息       |
+| PUT      | /api/p/s/m/{id} | 修改商家信息       |
+| DELETE   | /api/p/s/m/{id} | 删除商家信息       |
 
 ## 二、API文档
 
@@ -42,9 +43,7 @@ P.S.M:	product.subsys.module
 
 样例如下:
 
-
-
-### GET	/api/product/subsys/module/{id}	根据Shop ID查询商家数据
+### GET	/api/product/subsys/module/ \{id\}	根据Shop ID查询商家数据
 
 ---
 
@@ -52,21 +51,24 @@ P.S.M:	product.subsys.module
 
 **请求头部 Header**
 
-| Key  | Value | Required | Description |
-| ---- | ----- | -------- | ----------- |
-| 无   | 无    | 无       | 无          |
+
+| Key | Value | Required | Description |
+| ----- | ------- | ---------- | ------------- |
+| 无  | 无    | 无       | 无          |
 
 **路由参数 URL Params**
 
-| Key  | Value | Required | Description |
-| ---- | ----- | -------- | ----------- |
-| Id   | int   | 是       | 商家Id      |
+
+| Key | Value | Required | Description |
+| ----- | ------- | ---------- | ------------- |
+| Id  | int   | 是       | 商家Id      |
 
 **查询参数 Query Parames**
 
-| Key  | Value | Required | Description |
-| ---- | ----- | -------- | ----------- |
-| 无   | 无    | 无       | 无          |
+
+| Key | Value | Required | Description |
+| ----- | ------- | ---------- | ------------- |
+| 无  | 无    | 无       | 无          |
 
 ---
 
@@ -114,8 +116,6 @@ P.S.M:	product.subsys.module
 
 ---
 
-
-
 **注意：**
 
 1. 每个response格式都一定是st、msg、data的形式.
@@ -128,19 +128,18 @@ P.S.M:	product.subsys.module
 如果你的需求需要新的数据表，请给出对应的建表SQL（要求MySQL能正常执行）。
 
 
-
-| 规范      | 内容                                                         |
-| --------- | ------------------------------------------------------------ |
+| 规范      | 内容                                                                                                                                                                                      |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | table命名 | 按照P.S.M的规范进行，P代表小组的产品名，S代表子服务名称，M代表模块名，表名使用下划线分割，比如dingtalk\_im\_history，代表钉钉这个**产品**下面的**即时通信子系统**用到的**历史记录模块**。 |
-| Id        | 不能直接使用简单的id，而是要写的更具体，比如shop\_id，类型一律bigint |
-| name      | 不能直接使用简单的name，而是要写的更具体，比如shop\_name，类型一律varchar |
-| 数量      | 与数量有关的命名，一般使用cnt，例如：user_cnt                |
-| 时间      | 时间参考样表的定义方式，常用时间主要是create\_time与update\_time |
-| 索引      | 自主评估并按照样表格式建立索引，索引命名一律以idx_开头，用下划线链接索引项 |
-| 外键      | 自主声明，声明后一定要单独与后端联系一下。                   |
-| 引擎      | 一般使用InnoDB，可以保证完整的事务性                         |
-| 字符集    | 一般使用utf8mb4                                              |
-| 注释      | 所有表项与表后都必须有COMMENT                                |
+| Id        | 不能直接使用简单的id，而是要写的更具体，比如shop\_id，类型一律bigint                                                                                                                      |
+| name      | 不能直接使用简单的name，而是要写的更具体，比如shop\_name，类型一律varchar                                                                                                                 |
+| 数量      | 与数量有关的命名，一般使用cnt，例如：user_cnt                                                                                                                                             |
+| 时间      | 时间参考样表的定义方式，常用时间主要是create\_time与update\_time                                                                                                                          |
+| 索引      | 自主评估并按照样表格式建立索引，索引命名一律以idx_开头，用下划线链接索引项                                                                                                                |
+| 外键      | 自主声明，声明后一定要单独与后端联系一下。                                                                                                                                                |
+| 引擎      | 一般使用InnoDB，可以保证完整的事务性                                                                                                                                                      |
+| 字符集    | 一般使用utf8mb4                                                                                                                                                                           |
+| 注释      | 所有表项与表后都必须有COMMENT                                                                                                                                                             |
 
 样表：
 
@@ -155,4 +154,3 @@ CREATE TABLE `product_subsys_module` (
   KEY `idx_ownerid_shopname` (`owner_id`,`shop_name`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商家信息表'
 ~~~
-
