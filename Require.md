@@ -4,9 +4,9 @@
 
 命名空间介绍——P.S.M规范：
 
-P代表product，每个小组的总体工作内容视为一个product
+P代表product，总体工作内容视为一个product
 
-S代表subsys，每个人分到的工作视为一个subsys，
+S代表subsys，每个小组分到的工作视为一个subsys，
 
 M代表module，工作中设计的不同模块视为一个module。
 
