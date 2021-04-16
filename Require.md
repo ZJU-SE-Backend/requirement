@@ -148,7 +148,7 @@ P.S.M:	product.subsys.module
 CREATE TABLE `product_subsys_module` (
   `shop_id` bigint NOT NULL COMMENT '店铺ID',
   `owner_id` bigint NOT NULL COMMENT '商家ID',
-  `shop_name` varchar DEFAULT '' COMMENT '店铺中文名',
+  `shop_name` varchar(40) DEFAULT '' COMMENT '店铺中文名',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`shop_id`),
