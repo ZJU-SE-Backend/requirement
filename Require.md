@@ -92,12 +92,12 @@ P.S.M:	product.subsys.module
 
 **状态码 Status Code: 200**
 
-描述 Description：找不到数据
+描述 Description：暂无数据
 
 ~~~json
 {
 	"st": 1,
-	"msg": "找不到数据",
+	"msg": "暂无数据",
 	"data": null
 }
 ~~~
