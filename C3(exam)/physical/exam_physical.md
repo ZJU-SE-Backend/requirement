@@ -11,18 +11,18 @@
 
 | 请求类型  | PATH            | 描述               |
 | -------- | ----------------- | -------------------- |
-| GET      | /api/healthguide/exam/physical/hospital | 查询医院列表  |
-| GET      | /api/healthguide/exam/physical/remainder | 查询预约余量   |
-| POST     | /api/healthguide/exam/physical/appointment | 新增预约     |
-| GET      | /api/healthguide/exam/physical/appointment | 查询预约信息  |
-| GET      | /api/healthguide/exam/physical/report    | 获取体检报告（实现形式待定）  |
-| GET      | /api/healthguide/exam/physical/setting   | 查询余量设置（可迟点实现）  |
-| PUT      | /api/healthguide/exam/physical/setting   | 修改余量设置（可迟点实现）  |
+| GET      | /api/exam/physical/hospital | 查询医院列表  |
+| GET      | /api/exam/physical/remainder | 查询预约余量   |
+| POST     | /api/exam/physical/appointment | 新增预约     |
+| GET      | /api/exam/physical/appointment | 查询预约信息  |
+| GET      | /api/exam/physical/report    | 获取体检报告（实现形式待定）  |
+| GET      | /api/exam/physical/setting   | 查询余量设置（可迟点实现）  |
+| PUT      | /api/exam/physical/setting   | 修改余量设置（可迟点实现）  |
 
 
 ## API文档
 
-### GET  /api/healthguide/exam/physical/hospital  查询医院列表
+### GET  /api/exam/physical/hospital  查询医院列表
 
 #### Request
 
@@ -49,7 +49,7 @@ select distinct hospital from healthguide_exam_physical_capacity;
 ~~~
 
 
-### GET  /api/healthguide/exam/physical/remainder  查询预约余量 
+### GET  /api/exam/physical/remainder  查询预约余量 
 
 #### Request
 **查询参数 Query Parames**
@@ -83,7 +83,7 @@ where hospital=XXX, appoint_date=XXX;
 ~~~
 
 
-### POST  /api/healthguide/exam/physical/appointment  新增预约
+### POST  /api/exam/physical/appointment  新增预约
 
 **数据 Data**
 
@@ -122,7 +122,7 @@ values (XXX);
 
 
 
-### GET   /api/healthguide/exam/physical/appointment   查询预约信息
+### GET   /api/exam/physical/appointment   查询预约信息
 
 #### Request
 **查询参数 Query Parames**
@@ -154,7 +154,7 @@ where user_phone=XXX;
 （最好能按appoint_id做排序，大的在前面）
 
 
-### GET  /api/healthguide/exam/physical/report  获取体检报告（实现形式待定）
+### GET  /api/exam/physical/report  获取体检报告（实现形式待定）
 
 #### Request
 **查询参数 Query Parames**
@@ -167,7 +167,7 @@ where user_phone=XXX;
 实现形式待定
 
 
-### GET  /api/healthguide/exam/physical/setting  查询余量设置（管理端）
+### GET  /api/exam/physical/setting  查询余量设置（管理端）
 
 #### Request
 **查询参数 Query Parames**
@@ -204,7 +204,7 @@ select section, remainder from healthguide_exam_physical_remainder
 where hospital=XXX, appoint_date=XXX;
 ~~~
 
-### PUT  /api/healthguide/exam/physical/setting  修改余量设置（管理端）
+### PUT  /api/exam/physical/setting  修改余量设置（管理端）
 
 **数据 Data**
 
