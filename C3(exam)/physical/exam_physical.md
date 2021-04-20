@@ -57,8 +57,7 @@ select distinct hospital from healthguide_exam_physical_capacity;
 | Key | Value | Required | Description |
 | ----- | ------- | ---------- | ------------- |
 | hospital     | string    | y       | 医院名   |
-| appoint_date | date      | y       | 期望预约的日期 |
-（date一般用什么样的格式？）
+| appoint_date | int      | y       | 期望预约的日期 |
 
 #### Response
 
@@ -89,9 +88,9 @@ where hospital=XXX, appoint_date=XXX;
 
 | Key | Value | Required | Description |
 | ----- | ------- | ---------- | ------------- |
-| user_phone   | string    | y/n     | 用户id（如果后台能根据header自动确定则这个不用）   | 
+| user_phone   | string    | y/n     | 用户id（如果后台能根据header自动确定则这个不用）   |
 | hospital     | string    | y       | 医院名   |
-| appoint_date | date      | y       | 期望预约的日期 |
+| appoint_date | int       | y       | 期望预约的日期 |
 | section      | int       | y       | 预约时段 |
 
 #### Response
@@ -99,7 +98,7 @@ where hospital=XXX, appoint_date=XXX;
 ~~~json
 {
 	"st": 0,
-	"msg": "成功",
+	"msg": "",
 	"data":null
 }
 ~~~
@@ -107,7 +106,7 @@ where hospital=XXX, appoint_date=XXX;
 ~~~json
 {
 	"st": 1,
-	"msg": "失败",
+	"msg": "",
 	"data":null
 }
 ~~~
@@ -175,7 +174,7 @@ where user_phone=XXX;
 | Key | Value | Required | Description |
 | ----- | ------- | ---------- | ------------- |
 | hospital   | string    | y/n     | 查询的医院（如果可以自动确定则不用）  |
-| appoint_date | date    | y       | 查询的日期 |
+| appoint_date | int     | y       | 查询的日期 |
 
 
 #### Response
@@ -212,7 +211,7 @@ where hospital=XXX, appoint_date=XXX;
 | ----- | ------- | ---------- | ------------- |
 | hospital   | string    | y/n     | 医院（如果可以自动确定则不用）  |
 | default_capacity   | int | n       | 修改默认容量（方式一）   |
-| appoint_date | date      | n       | 修改特定特定日期时段的余量（方式二） |
+| appoint_date | int       | n       | 修改特定特定日期时段的余量（方式二） |
 | section      | int       | n       | 修改特定特定日期时段的余量（方式二） |
 | remainder    | int       | n       | 修改特定特定日期时段的余量（方式二） |
 
@@ -222,7 +221,7 @@ where hospital=XXX, appoint_date=XXX;
 ~~~json
 {
 	"st": 0,
-	"msg": "成功",
+	"msg": "",
 	"data":null
 }
 ~~~
@@ -230,7 +229,7 @@ where hospital=XXX, appoint_date=XXX;
 ~~~json
 {
 	"st": 1,
-	"msg": "失败",
+	"msg": "",
 	"data":null
 }
 ~~~
@@ -273,7 +272,7 @@ insert into healthguide_exam_physical_capacity value
 ~~~sql
 create table `healthguide_exam_physical_remainder` (
 	`hospital` varchar(60) not null comment '医院名',
-	`appoint_date` date not null comment '余量对应的日期',
+	`appoint_date` datetime not null comment '余量对应的日期',
 	`section` int not null comment '一天当中的时段（从1到8）',
 	`remainder` int not null comment '实时余量',
 	primary key (`hospital`,`appoint_date`,`section`)
@@ -287,7 +286,7 @@ create table `healthguide_exam_physical_appointment` (
 	`appoint_id` bigint not null comment '序列号' primary key auto_increment,
 	`user_phone` varchar(40) not null comment '用户电话',
 	`hospital` varchar(60) not null comment '医院名',
-	`appoint_date` date not null comment '预约的日期',
+	`appoint_date` datetime not null comment '预约的日期',
 	`section` int not null comment '预约的时段（从1到8）',
 	`create_time` datetime not null default current_timestamp comment '记录创建时间',
 
