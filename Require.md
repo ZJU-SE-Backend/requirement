@@ -16,6 +16,8 @@ M代表module，工作中设计的不同模块视为一个module。
 
 P.S.M是后端命名的规范
 
+**注：写需求前先看看这个仓库根目录下其他的文档和别人写的需求**
+
 ## 一、需求描述
 
 需求描述分为两个部分：需求介绍、API列表。样例如下：
@@ -31,11 +33,11 @@ P.S.M:	product.subsys.module
 
 | 请求类型 | PATH            | 描述               |
 | ---------- | ----------------- | -------------------- |
-| GET      | /api/p/s/m/{id} | 查询单个商家的信息 |
-| GET      | /api/p/s/m/     | 查询商家列表       |
-| POST     | /api/p/s/m/{id} | 新增商家信息       |
-| PUT      | /api/p/s/m/{id} | 修改商家信息       |
-| DELETE   | /api/p/s/m/{id} | 删除商家信息       |
+| GET      | /api/s/m/{id} | 查询单个商家的信息 |
+| GET      | /api/s/m/     | 查询商家列表       |
+| POST     | /api/s/m/{id} | 新增商家信息       |
+| PUT      | /api/s/m/{id} | 修改商家信息       |
+| DELETE   | /api/s/m/{id} | 删除商家信息       |
 
 ## 二、API文档
 
@@ -43,7 +45,7 @@ P.S.M:	product.subsys.module
 
 样例如下:
 
-### GET	/api/product/subsys/module/ \{id\}	根据Shop ID查询商家数据
+### GET	/api/subsys/module/ \{id\}	根据Shop ID查询商家数据
 
 ---
 
