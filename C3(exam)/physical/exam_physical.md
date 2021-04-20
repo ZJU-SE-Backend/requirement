@@ -88,7 +88,7 @@ where hospital=XXX, appoint_date=XXX;
 
 | Key | Value | Required | Description |
 | ----- | ------- | ---------- | ------------- |
-| user_phone   | string    | y/n     | 用户id（如果后台能根据header自动确定则这个不用）   | 
+| user_phone   | string    | y/n     | 用户id（如果后台能根据header自动确定则这个不用）   |
 | hospital     | string    | y       | 医院名   |
 | appoint_date | int       | y       | 期望预约的日期 |
 | section      | int       | y       | 预约时段 |
@@ -98,7 +98,7 @@ where hospital=XXX, appoint_date=XXX;
 ~~~json
 {
 	"st": 0,
-	"msg": "成功",
+	"msg": "",
 	"data":null
 }
 ~~~
@@ -106,7 +106,7 @@ where hospital=XXX, appoint_date=XXX;
 ~~~json
 {
 	"st": 1,
-	"msg": "失败",
+	"msg": "",
 	"data":null
 }
 ~~~
@@ -221,7 +221,7 @@ where hospital=XXX, appoint_date=XXX;
 ~~~json
 {
 	"st": 0,
-	"msg": "成功",
+	"msg": "",
 	"data":null
 }
 ~~~
@@ -229,7 +229,7 @@ where hospital=XXX, appoint_date=XXX;
 ~~~json
 {
 	"st": 1,
-	"msg": "失败",
+	"msg": "",
 	"data":null
 }
 ~~~
