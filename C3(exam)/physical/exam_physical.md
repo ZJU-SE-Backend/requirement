@@ -67,11 +67,11 @@ select distinct hospital from healthguide_exam_physical_capacity;
 	"st": 0,
 	"msg": "",
 	"data":{
-		1: 150,
-		2: 150,
-		3: 150,
-		4: 150,
-		...
+		"1": 150,
+		"2": 150,
+		"3": 150,
+		"4": 150,
+		"...":"..."
 	}
 }
 ~~~
@@ -137,11 +137,11 @@ values (XXX);
 {
 	"st": 0,
 	"msg": "",
-	"data":{
+	"data":[
 		[1234，"杭州市第一人民医院","2020-4-20", 2, true],
 		...,
-		[预约号,医院,日期,时段,状态]
-	}
+		["预约号","医院","日期","时段","状态"]
+	]
 }
 ~~~
 
@@ -185,12 +185,12 @@ where user_phone=XXX;
 	"st": 0,
 	"msg": "",
 	"data":{
-		default_capacity: 35,
-		remainder:{
-			1:30,
-			2:28,
-			...,
-			时段: 余量
+		"default_capacity": 35,
+		"remainder":{
+			"1":30,
+			"2":28,
+			"...":"...",
+			"时段": "余量"
 		}
 	}
 }
