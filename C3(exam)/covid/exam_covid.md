@@ -57,7 +57,7 @@ select distinct hospital from healthguide_exam_covid_capacity;
 | Key | Value | Required | Description |
 | ----- | ------- | ---------- | ------------- |
 | hospital     | string    | y       | 医院名   |
-| appoint_date | int       | y       | 期望预约的日期 |
+| appoint_date | Datetime | y       | 期望预约的日期 |
 
 
 #### Response
@@ -67,10 +67,10 @@ select distinct hospital from healthguide_exam_covid_capacity;
 	"st": 0,
 	"msg": "",
 	"data":{
-		"1": 150,
-		"2": 150,
-		"3": 150,
-		"4": 150,
+		"section1": 150,
+		"section2": 150,
+		"section3": 150,
+		"section4": 150,
 		"...":"..."
 	}
 }
@@ -282,6 +282,7 @@ create table `healthguide_exam_covid_remainder` (
 
 **healthguide_exam_covid_appointment**
 预约信息。表内还要存报告的pdf。
+
 ~~~sql
 create table `healthguide_exam_covid_appointment` (
 	`appoint_id` bigint not null comment '序列号' primary key auto_increment,
