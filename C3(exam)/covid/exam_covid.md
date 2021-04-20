@@ -14,8 +14,8 @@
 | GET      | /api/exam/covid/hospital | 查询医院列表  |
 | GET      | /api/exam/covid/remainder | 查询预约余量   |
 | POST     | /api/exam/covid/appointment | 新增预约     |
-| GET      | /api/exam/covid/appointment | 查询预约信息  |
-| GET      | /api/exam/covid/report    | 获取核酸检测报告（实现形式待定）  |
+| GET      | /api/exam/covid/appointment/user_phone | 查询预约信息  |
+| GET      | /api/exam/covid/report/appoint_id      | 获取体检报告（实现形式待定）  |
 | GET      | /api/exam/covid/setting   | 查询余量设置（可迟点实现）  |
 | PUT      | /api/exam/covid/setting   | 修改余量设置（可迟点实现）  |
 
@@ -122,10 +122,10 @@ values (XXX);
 
 
 
-### GET   /api/exam/covid/appointment   查询预约信息
+### GET   /api/exam/covid/appointment/user_phone   查询预约信息
 
 #### Request
-**查询参数 Query Parames**
+**路由参数 URL Parames**
 
 | Key | Value | Required | Description |
 | ----- | ------- | ---------- | ------------- |
@@ -154,10 +154,10 @@ where user_phone=XXX;
 （最好能按appoint_id做排序，大的在前面）
 
 
-### GET  /api/exam/covid/report  获取核酸检测报告（实现形式待定）
+### GET  /api/exam/covid/report/appoint_id  获取核酸检测报告（实现形式待定）
 
 #### Request
-**查询参数 Query Parames**
+**路由参数  URL Parames**
 
 | Key | Value | Required | Description |
 | ----- | ------- | ---------- | ------------- |
