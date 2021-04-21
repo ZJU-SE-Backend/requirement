@@ -12,12 +12,13 @@
 | 请求类型  | PATH            | 描述               |
 | -------- | ----------------- | -------------------- |
 | GET      | /api/exam/covid/hospital | 查询医院列表  |
-| GET      | /api/exam/covid/remainder | 查询预约余量   |
+| POST   | /api/exam/covid/remainder | 查询预约余量   |
 | POST     | /api/exam/covid/appointment | 新增预约     |
 | GET      | /api/exam/covid/appointment/user_phone | 查询预约信息  |
 | GET      | /api/exam/covid/report/appoint_id      | 获取体检报告（实现形式待定）  |
-| GET      | /api/exam/covid/setting   | 查询余量设置（可迟点实现）  |
+| POST   | /api/exam/covid/setting   | 查询余量设置（可迟点实现）  |
 | PUT      | /api/exam/covid/setting   | 修改余量设置（可迟点实现）  |
+
 
 
 ## API文档
@@ -49,7 +50,7 @@ select distinct hospital from healthguide_exam_covid_capacity;
 ~~~
 
 
-### GET  /api/exam/covid/remainder  查询预约余量 
+### POST  /api/exam/covid/remainder  查询预约余量 
 
 #### Request
 **查询参数 Query Parames**
@@ -57,7 +58,7 @@ select distinct hospital from healthguide_exam_covid_capacity;
 | Key | Value | Required | Description |
 | ----- | ------- | ---------- | ------------- |
 | hospital     | string    | y       | 医院名   |
-| appoint_date | Datetime | y       | 期望预约的日期 |
+| appoint_date | long   | y       | 期望预约的日期 |
 
 
 #### Response
@@ -67,11 +68,7 @@ select distinct hospital from healthguide_exam_covid_capacity;
 	"st": 0,
 	"msg": "",
 	"data":{
-		"section1": 150,
-		"section2": 150,
-		"section3": 150,
-		"section4": 150,
-		"...":"..."
+		"sections": [150,150,0,0,0,150,0,0],
 	}
 }
 ~~~
@@ -91,7 +88,7 @@ where hospital=XXX, appoint_date=XXX;
 | ----- | ------- | ---------- | ------------- |
 | user_phone   | string    | y/n     | 用户id（如果后台能根据header自动确定则这个不用）   |
 | hospital     | string    | y       | 医院名   |
-| appoint_date | int       | y       | 期望预约的日期 |
+| appoint_date | long   | y       | 期望预约的日期 |
 | section      | int       | y       | 预约时段 |
 
 #### Response
@@ -100,27 +97,26 @@ where hospital=XXX, appoint_date=XXX;
 {
 	"st": 0,
 	"msg": "",
-	"data":null
+	"data":
+    {
+        "result": true
+    }
 }
 ~~~
 
 ~~~json
 {
-	"st": 1,
+	"st": 0,
 	"msg": "",
-	"data":null
+	"data":
+    {
+        "result": false
+    }
 }
 ~~~
 
-建议数据库操作：
-先看healthguide_exam_covid_remainder中对应的时段余量是否大于0，然后往healthguide_exam_covid_appointment中插入数据（还要加入create_time字段）
-~~~sql
-insert into healthguide_exam_covid_appointment
-(user_phone, hospital, appoint_date, section)
-values (XXX);
-~~~
-
-
+数据库操作：
+检验余量是否大于0，若是则插入预约信息，并更新余量
 
 ### GET   /api/exam/covid/appointment/user_phone   查询预约信息
 
@@ -138,16 +134,16 @@ values (XXX);
 	"st": 0,
 	"msg": "",
 	"data":[
-		[1234, "杭州市第一人民医院","2020-4-20", 2, true],
-		["..."],
-		["预约号","医院","日期","时段","状态"]
+		{1234, "杭州市第一人民医院","2020-4-20", 2},
+		{"..."},
+		{"预约号","医院","日期","时段}
 	]
 }
 ~~~
 
 建议数据库操作：
 ~~~sql
-select appoint_id, hospital, appoint_date, section, report_status
+select appoint_id, hospital, appoint_date, section
 from healthguide_exam_covid_appointment
 where user_phone=XXX;
 ~~~
@@ -167,7 +163,7 @@ where user_phone=XXX;
 实现形式待定
 
 
-### GET  /api/exam/covid/setting  查询余量设置（管理端）
+### POST  /api/exam/covid/setting  查询余量设置（管理端）
 
 #### Request
 **查询参数 Query Parames**
@@ -186,12 +182,7 @@ where user_phone=XXX;
 	"msg": "",
 	"data":{
 		"default_capacity": 35,
-		"remainder":{
-			"1":30,
-			"2":28,
-			"...":"...",
-			"时段": "余量"
-		}
+		"remainder":[0,1,...,20]
 	}
 }
 ~~~
@@ -211,6 +202,7 @@ where hospital=XXX, appoint_date=XXX;
 | Key | Value | Required | Description |
 | ----- | ------- | ---------- | ------------- |
 | hospital   | string    | y/n     | 医院（如果可以自动确定则不用）  |
+| type | int | y | 修改方式（0为方式一，其他为方式二） |
 | default_capacity   | int | n       | 修改默认容量（方式一）   |
 | appoint_date | int       | n       | 修改特定特定日期时段的余量（方式二） |
 | section      | int       | n       | 修改特定特定日期时段的余量（方式二） |
@@ -223,15 +215,21 @@ where hospital=XXX, appoint_date=XXX;
 {
 	"st": 0,
 	"msg": "",
-	"data":null
+	"data":
+    {
+        "result":true
+    }
 }
 ~~~
 
 ~~~json
 {
-	"st": 1,
+	"st": 0,
 	"msg": "",
-	"data":null
+	"data":
+    {
+        "result":false
+    }
 }
 ~~~
 
@@ -249,7 +247,8 @@ where hospital=XXX, appoint_date=XXX, section=XXX;
 ~~~
 
 
-## 数据表
+
+## 数据表相关（by参考之后）
 
 **healthguide_exam_covid_capacity**
 设置每个医院的时段容量默认值。一个医院对应一个值（如杭州市第一人民医院-35表示该医院每个时段默认容纳35个预约）
@@ -265,6 +264,9 @@ insert into healthguide_exam_covid_capacity value
 ("浙江大学医学院附属第二医院", 30),
 ("浙江大学医学院附属邵逸夫医院", 30),
 ("杭州市第一人民医院", 30);
+
+select * from healthguide_exam_covid_capacity;
+drop table `healthguide_exam_covid_capacity`;
 ~~~
 
 **healthguide_exam_covid_remainder**
@@ -273,27 +275,272 @@ insert into healthguide_exam_covid_capacity value
 ~~~sql
 create table `healthguide_exam_covid_remainder` (
 	`hospital` varchar(60) not null comment '医院名',
-	`appoint_date` datetime not null comment '余量对应的日期',
+	`appoint_date` date not null comment '余量对应的日期',
 	`section` int not null comment '一天当中的时段（从1到8）',
 	`remainder` int not null comment '实时余量',
 	primary key (`hospital`,`appoint_date`,`section`)
 ) engine=InnoDB default charset=utf8mb4 comment='各医院各时段实时余量';
+
+insert into healthguide_exam_covid_remainder values
+('浙江大学医学院附属第一医院','2021-4-21',1,0),
+('浙江大学医学院附属第一医院','2021-4-21',2,3),
+('浙江大学医学院附属第一医院','2021-4-21',3,6),
+('浙江大学医学院附属第一医院','2021-4-21',4,9),
+('浙江大学医学院附属第一医院','2021-4-21',5,12),
+('浙江大学医学院附属第一医院','2021-4-21',6,15),
+('浙江大学医学院附属第一医院','2021-4-21',7,18),
+('浙江大学医学院附属第一医院','2021-4-21',8,21);
+
+select * from healthguide_exam_covid_remainder;
+drop table `healthguide_exam_covid_remainder`;
 ~~~
 
 **healthguide_exam_covid_appointment**
-预约信息。表内还要存报告的pdf。
+预约信息。
 
 ~~~sql
 create table `healthguide_exam_covid_appointment` (
 	`appoint_id` bigint not null comment '序列号' primary key auto_increment,
 	`user_phone` varchar(40) not null comment '用户电话',
 	`hospital` varchar(60) not null comment '医院名',
-	`appoint_date` datetime not null comment '预约的日期',
+	`appoint_date` date not null comment '预约的日期',
 	`section` int not null comment '预约的时段（从1到8）',
 	`create_time` datetime not null default current_timestamp comment '记录创建时间',
-
-	`report_status` boolean not null default 0 comment '报告是否生成',
-	`report` MediumBlob default null comment '报告',
-	key idx_phone ('user_phone')
+	key `idx_phone` (`user_phone`)
 ) engine=InnoDB default charset=utf8mb4 comment='预约信息';
+
+insert into healthguide_exam_covid_appointment (user_phone, hospital, appoint_date, section) values
+('18888888888', '浙江大学医学院附属第一医院','2021-4-21',1),
+('18888888888', '浙江大学医学院附属第一医院','2021-4-21',3),
+('10000000000', '浙江大学医学院附属第一医院','2021-4-21',2);
+
+select * from healthguide_exam_covid_appointment;
+drop table `healthguide_exam_covid_appointment`;
 ~~~
+
+**healthguide_exam_covid_report**（暂未完成）
+
+储存体检报告。
+
+~~~sql
+create table `healthguide_exam_covid_report` (
+	`appoint_id` bigint not null comment '预约序号' primary key,
+	`user_phone` varchar(40) not null comment '用户电话',
+	`report` MediumBlob default null comment '报告',
+	key `idx_phone` (`user_phone`)
+) engine=InnoDB default charset=utf8mb4 comment='检测报告';
+~~~
+
+
+
+## 正确测试样例（by后端）
+
+### **GET**/api/exam/covid/hospital
+
+```json
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": {
+    "hospitalList": [
+      "杭州市第一人民医院",
+      "浙江大学医学院附属第一医院",
+      "浙江大学医学院附属第二医院",
+      "浙江大学医学院附属邵逸夫医院"
+    ]
+  }
+}
+```
+
+
+
+### **POST**/api/exam/covid/remainder
+
+```json
+Request body
+{
+  "hospital": "浙江大学医学院附属第一医院",
+  "appointDate": 1618934400
+}
+	
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": {
+    "sections": [
+      0,
+      3,
+      6,
+      9,
+      12,
+      15,
+      18,
+      21
+    ]
+  }
+}
+```
+
+
+
+### **GET**/api/exam/covid/appointment/{userPhone}
+
+```json
+Parameters
+userPhone: 18888888888
+	
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": {
+    "appointments": [
+      {
+        "appointId": 2,
+        "hospital": "浙江大学医学院附属第一医院",
+        "appointDate": 1618934400,
+        "section": 3
+      },
+      {
+        "appointId": 1,
+        "hospital": "浙江大学医学院附属第一医院",
+        "appointDate": 1618934400,
+        "section": 1
+      }
+    ]
+  }
+}
+```
+
+
+
+### **POST**/api/exam/covid/appointment
+
+```json
+Request body
+{
+  "hospital": "浙江大学医学院附属第一医院",
+  "appointDate": 1618934400,
+  "section": 6,
+  "userPhone": "18888888888"
+}
+
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": {
+    "result": true
+  }
+}
+```
+
+预约成功，数据库新增预约信息，容量-1成功
+
+```json
+Request body
+{
+  "hospital": "浙江大学医学院附属第一医院",
+  "appointDate": 1618934400,
+  "section": 1,
+  "userPhone": "18888888888"
+}
+
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": {
+    "result": false
+  }
+}
+```
+
+预约失败，容量不足
+
+
+
+### **POST**/api/exam/covid/setting
+
+```json
+Request body
+{
+  "hospital": "浙江大学医学院附属第一医院",
+  "appointDate": 1618934400
+}
+
+	
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": {
+    "defaultCapacty": 30,
+    "sections": [
+      0,
+      3,
+      6,
+      9,
+      12,
+      14,
+      18,
+      21
+    ]
+  }
+}
+```
+
+
+
+### **PUT**/api/exam/covid/setting
+
+```json
+Request body
+{
+  "hospital": "浙江大学医学院附属第一医院",
+  "type": 0,
+  "defaultCapacty": 35,
+  "appointDate": 0,
+  "section": 0,
+  "remainder": 0
+}
+
+	
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": {
+    "result": true
+  }
+}
+```
+
+修改容量成功，容量及余量数据库更新正确
+
+```json
+Request body
+{
+  "hospital": "浙江大学医学院附属第一医院",
+  "type": 1,
+  "defaultCapacty": 35,
+  "appointDate": 1618934400,
+  "section": 2,
+  "remainder": 50
+}
+
+	
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": {
+    "result": true
+  }
+}
+```
+
+修改余量成功，余量数据库更新正确
+
