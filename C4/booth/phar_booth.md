@@ -7,15 +7,15 @@
 
 ### API列表
 
-| 请求类型 | PATH                  | 描述                                     |
-| -------- | --------------------- | ---------------------------------------- |
-| GET      | /api/phar/list        | 获取药品列表                             |
-| GET      | /api/phar/detail/{id} | 获取药品详情                             |
-| GET      | /api/phar/search      | 根据药品名搜索药品（暂时不用做模糊匹配） |
+| 请求类型 | PATH                        | 描述                                     |
+| -------- | --------------------------- | ---------------------------------------- |
+| GET      | /api/phar/booth/list        | 获取药品列表                             |
+| GET      | /api/phar/booth/detail/{id} | 获取药品详情                             |
+| GET      | /api/phar/booth/search      | 根据药品名搜索药品（暂时不用做模糊匹配） |
 
 ## API文档
 
-### GET  /api/phar/list  获取药品列表
+### GET  /api/phar/booth/list  获取药品列表
 
 #### Request
 
@@ -57,10 +57,10 @@
 建议数据库操作：
 
 ~~~sql
-select id, name, type, price, sIndication from healthguide_phar_medicine_list where cata=XXX;
+select id, name, type, price, sIndication from healthguide_phar_booth_medicine where cata=XXX;
 ~~~
 
-### GET /api/phar/detail/{id}获取药品详情
+### GET /api/phar/booth/detail/{id}获取药品详情
 
 #### Request
 
@@ -91,10 +91,10 @@ select id, name, type, price, sIndication from healthguide_phar_medicine_list wh
 建议数据库操作：
 
 ```sql
-select name, type, price, lIndication, usageAndDosage, adr, contraindications from healthguide_phar_medicine_list where id=XXX;
+select name, type, price, lIndication, usageAndDosage, adr, contraindications from healthguide_phar_booth_medicine where id=XXX;
 ```
 
-### GET  /api/phar/search 搜索药品（暂时不做模糊匹配）
+### GET  /api/phar/booth/search 搜索药品（暂时不做模糊匹配）
 
 #### Request
 
@@ -123,16 +123,16 @@ select name, type, price, lIndication, usageAndDosage, adr, contraindications fr
 建议数据库操作:
 
 ```sql
-select id, name, type, price, sIndication from healthguide_phar_medicine_list where name=XXX;
+select id, name, type, price, sIndication from healthguide_phar_booth_medicine where name=XXX;
 ```
 
 ## 数据表
 
-**healthguide_phar_medicine**
+**healthguide_phar_booth_medicine**
 存储所有药品信息的总表
 
 ~~~sql
-create table healthguide_phar_medicine (
+create table healthguide_phar_booth_medicine (
 	id int not null comment '药品id' primary key auto_increment,
 	name varchar(40) not null comment '药品名',
     cata varchar(40) not null comment '商品分类',
@@ -145,14 +145,14 @@ create table healthguide_phar_medicine (
     contraindications text comment '禁忌'
 ) engine=InnoDB default charset=utf8mb4 comment='存储所有药品信息的总表';
 
-insert into healthguide_phar_medicine(name, cata, type, price, sIndication, lIndication, usageAndDosage, adr, contraindications)values
+insert into healthguide_phar_booth_medicine(name, cata, type, price, sIndication, lIndication, usageAndDosage, adr, contraindications)values
 ( "阿莫西林", "感冒头痛", "抗生素", 24.55, "季节性头痛",
  "季节性头痛", "用法用量", "不良反应", "禁忌"),
 ( "阿莫西林1", "感冒头痛", "抗生素", 30.00, "季节性头痛1",
     "季节性头痛1", "用法用量1", "不良反应1", "禁忌1");
     
-select * from healthguide_phar_medicine;
-drop table `healthguide_phar_medicine`;
+select * from healthguide_phar_booth_medicine;
+drop table `healthguide_phar_booth_medicine`;
 ~~~
 
 
@@ -161,7 +161,7 @@ drop table `healthguide_phar_medicine`;
 
 ## 测试样例（by后端）
 
-### **GET**/api/phar/list
+### **GET**/api/phar/booth/list
 
 count默认值为-1（不使用）
 
@@ -273,7 +273,7 @@ Response body
 
 
 
-### **GET**/api/phar/detail/{id}
+### **GET**/api/phar/booth/detail/{id}
 
 成功样例
 
@@ -311,7 +311,7 @@ Response body
 
 
 
-### **GET**/api/phar/search/{name}
+### **GET**/api/phar/booth/search/{name}
 
 成功样例
 

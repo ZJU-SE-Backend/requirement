@@ -12,11 +12,11 @@
 | 请求类型  | PATH            | 描述               |
 | -------- | ----------------- | -------------------- |
 | GET      | /api/exam/covid/hospital | 查询医院列表  |
-| POST   | /api/exam/covid/remainder | 查询预约余量   |
+| GET | /api/exam/covid/remainder | 查询预约余量   |
 | POST     | /api/exam/covid/appointment | 新增预约     |
 | GET      | /api/exam/covid/appointment/user_phone | 查询预约信息  |
 | GET      | /api/exam/covid/report/appoint_id      | 获取体检报告（实现形式待定）  |
-| POST   | /api/exam/covid/setting   | 查询余量设置（可迟点实现）  |
+| GET | /api/exam/covid/setting   | 查询余量设置（可迟点实现）  |
 | PUT      | /api/exam/covid/setting   | 修改余量设置（可迟点实现）  |
 
 
@@ -50,7 +50,7 @@ select distinct hospital from healthguide_exam_covid_capacity;
 ~~~
 
 
-### POST  /api/exam/covid/remainder  查询预约余量 
+### GET  /api/exam/covid/remainder  查询预约余量 
 
 #### Request
 **查询参数 Query Parames**
@@ -118,10 +118,10 @@ where hospital=XXX, appoint_date=XXX;
 数据库操作：
 检验余量是否大于0，若是则插入预约信息，并更新余量
 
-### GET   /api/exam/covid/appointment/user_phone   查询预约信息
+### GET   /api/exam/covid/appointment/{user_phone}  查询预约信息
 
 #### Request
-**路由参数 URL Parames**
+**路由参数**
 
 | Key | Value | Required | Description |
 | ----- | ------- | ---------- | ------------- |
@@ -150,10 +150,10 @@ where user_phone=XXX;
 （最好能按appoint_id做排序，大的在前面）
 
 
-### GET  /api/exam/covid/report/appoint_id  获取核酸检测报告（实现形式待定）
+### GET  /api/exam/covid/report/{appoint_id}  获取核酸检测报告（实现形式待定）
 
 #### Request
-**路由参数  URL Parames**
+**路由参数**
 
 | Key | Value | Required | Description |
 | ----- | ------- | ---------- | ------------- |
@@ -163,7 +163,7 @@ where user_phone=XXX;
 实现形式待定
 
 
-### POST  /api/exam/covid/setting  查询余量设置（管理端）
+### GET  /api/exam/covid/setting  查询余量设置（管理端）
 
 #### Request
 **查询参数 Query Parames**
@@ -333,7 +333,7 @@ create table `healthguide_exam_covid_report` (
 
 
 
-## 正确测试样例（by后端）
+## 测试样例（by后端）
 
 ### **GET**/api/exam/covid/hospital
 
@@ -355,14 +355,13 @@ Response body
 
 
 
-### **POST**/api/exam/covid/remainder
+### **GET**/api/exam/covid/remainder
+
+查询成功：
 
 ```json
-Request body
-{
-  "hospital": "浙江大学医学院附属第一医院",
-  "appointDate": 1618934400
-}
+hospital= "浙江大学医学院附属第一医院",
+appointDate= 1618934400
 	
 Response body
 {
@@ -383,9 +382,27 @@ Response body
 }
 ```
 
+未查询到：
+
+```json
+hospital= "浙江大学医学院附属第一医院",
+appointDate= 1618934400
+	
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": {
+    "sections": []
+  }
+}
+```
+
 
 
 ### **GET**/api/exam/covid/appointment/{userPhone}
+
+查询成功：
 
 ```json
 Parameters
@@ -414,9 +431,27 @@ Response body
 }
 ```
 
+未查询到：
+
+```json
+Parameters
+userPhone: 18888888880
+	
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": {
+    "appointments": []
+  }
+}
+```
+
 
 
 ### **POST**/api/exam/covid/appointment
+
+预约成功，数据库新增预约信息，容量-1成功：
 
 ```json
 Request body
@@ -437,7 +472,7 @@ Response body
 }
 ```
 
-预约成功，数据库新增预约信息，容量-1成功
+预约失败，容量不足：
 
 ```json
 Request body
@@ -458,20 +493,16 @@ Response body
 }
 ```
 
-预约失败，容量不足
-
 
 
 ### **POST**/api/exam/covid/setting
 
-```json
-Request body
-{
-  "hospital": "浙江大学医学院附属第一医院",
-  "appointDate": 1618934400
-}
+查询完整：
 
-	
+```json
+hospital= "浙江大学医学院附属第一医院",
+appointDate= 1618934400
+
 Response body
 {
   "st": 0,
@@ -492,9 +523,42 @@ Response body
 }
 ```
 
+医院存在，查询不到日期：
+
+```json
+hospital= "浙江大学医学院附属第一医院",
+appointDate= 161893440
+
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": {
+    "defaultCapacty": 30,
+    "sections": []
+  }
+}
+```
+
+医院不存在：
+
+```json
+hospital= "浙江大学医学院附属第一医",
+appointDate= 1618934400
+
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": null
+}
+```
+
 
 
 ### **PUT**/api/exam/covid/setting
+
+修改容量，容量及余量数据库更新正确：
 
 ```json
 Request body
@@ -518,7 +582,7 @@ Response body
 }
 ```
 
-修改容量成功，容量及余量数据库更新正确
+修改余量，余量数据库更新正确：
 
 ```json
 Request body
@@ -542,5 +606,5 @@ Response body
 }
 ```
 
-修改余量成功，余量数据库更新正确
+
 
