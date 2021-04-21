@@ -64,7 +64,7 @@ select id, name, type, price, sIndication from healthguide_phar_medicine_list wh
 
 #### Request
 
-**URL参数**
+**路由参数**
 
 | Key  | Value | Required | Description |
 | ---- | ----- | -------- | ----------- |
