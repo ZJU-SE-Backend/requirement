@@ -9,13 +9,13 @@
 
 | 请求类型 | PATH             | 描述                                     |
 | -------- | ---------------- | ---------------------------------------- |
-| GET      | /api/phar/list   | 获取药品列表                             |
+| POST     | /api/phar/list   | 获取药品列表                             |
 | GET      | /api/phar/detail | 获取药品详情                             |
 | GET      | /api/phar/search | 根据药品名搜索药品（暂时不用做模糊匹配） |
 
 ## API文档
 
-### GET  /api/phar/list  获取药品列表
+### POST  /api/phar/list  获取药品列表
 
 #### Request
 
@@ -55,6 +55,7 @@
 ~~~
 
 建议数据库操作：
+
 ~~~sql
 select id, name, type, price, sIndication from healthguide_phar_medicine_list where cata=XXX;
 ~~~
@@ -63,7 +64,7 @@ select id, name, type, price, sIndication from healthguide_phar_medicine_list wh
 
 #### Request
 
-**查询参数 Query Parames**
+**URL参数*
 
 | Key  | Value | Required | Description |
 | ---- | ----- | -------- | ----------- |
@@ -97,7 +98,7 @@ select name, type, price, lIndication, usageAndDosage, adr, contraindications fr
 
 #### Request
 
-**查询参数 Query Parames**
+**URL参数** 
 
 | Key  | Value  | Required | Description |
 | ---- | ------ | -------- | ----------- |
