@@ -296,7 +296,7 @@ Response body
 }
 ```
 
-如果不存在数据会返回暂无数据错误，st=1
+如果不存在数据会返回数据不一致错误，st=1
 
 ```json
 id=3
@@ -304,7 +304,7 @@ id=3
 Response body
 {
   "st": 1,
-  "msg": "暂无数据",
+  "msg": "数据不一致",
   "data": null
 }
 ```

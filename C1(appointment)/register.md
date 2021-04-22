@@ -111,9 +111,8 @@ select distinct room from healthguide_appointment_register_hospital
 | Key | Value | Required | Description |
 | ----- | ------- | ---------- | ------------- |
 | patient_phone   | string    | y/n     | 病人id（如果后台能根据header自动确定则这个不用）   |
-| hospital     | string    | y       | 医院名   |
-| room 			| string 	| y		|  科室名	|
-| appoint_id  | int   | y        | 期望预约时间段编号 |
+| appoint_date | long | y		| 预约日期	|
+| section | int   | y        | 预约时间段编号 |
 | doctor_phone    | int       | y       | 医生id |
 (目前暂定预约记录展示这些信息，根据后续开发确定是否需要添加新的字段)
 （预约时间段编号对应了不同的时间段，在前端会进行针对性的解释翻译）
@@ -124,15 +123,21 @@ select distinct room from healthguide_appointment_register_hospital
 {
 	"st": 0,
 	"msg": "",
-	"data":null
+	"data":
+    {
+        "result":true
+    }
 }
 ~~~
 
 ~~~json
 {
-	"st": 1,
+	"st": 0,
 	"msg": "",
-	"data":null
+	"data":
+    {
+        "result":false
+    }
 }
 ~~~
 
@@ -157,9 +162,9 @@ select distinct room from healthguide_appointment_register_hospital
 	"st": 0,
 	"msg": "",
 	"data":[
-		["杭州市第一人民医院","2020-4-20 13:13:13","儿科","妙手回春哥"],
+		["杭州市第一人民医院","1618934400","1","儿科","妙手回春哥"],
 		["..."],
-		["医院","日期","科室","预约医生姓名"]
+		["医院","日期","时间段"，"科室","预约医生姓名"]
 	]
 }
 ~~~
@@ -173,8 +178,9 @@ select distinct room from healthguide_appointment_register_hospital
 
 | Key | Value | Required | Description |
 | ----- | ------- | ---------- | ------------- |
-| patient_phone   | string    | y/n     | 医生ID  |
-| appoint_date | int     | y       |预约日期  |
+| doctor_phone | string    | y/n     | 医生ID  |
+| appoint_date | long   | y       |预约日期  |
+| section | int | y |预约时间段 |
 #### Response
 
 ~~~json
@@ -183,12 +189,7 @@ select distinct room from healthguide_appointment_register_hospital
 	"msg": "",
 	"data":{
 		"default_number": 0,
-		"remainder":{
-			"1":5,
-			"2":4,
-			"...":"...",
-			"时段编号": "预约数量"
-		}
+		"remainder":[1,2,...,0]
 	}
 }
 ~~~
@@ -227,4 +228,6 @@ create table `healthguide_appointment_register_record` (
 	primary key (`doctor_phone`,`appoint_id`,`patient_phone`)
 ) engine=InnoDB default charset=utf8mb4 comment='医院预约记录';
 ~~~
+
+
 
