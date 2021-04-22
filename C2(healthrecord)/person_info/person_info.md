@@ -54,7 +54,7 @@ where user_phone = XXX;
 
 ~~~sql
 create table `person_info` (
-  `user_phone`          varchar(40)             NOT NULL        COMMENT '电话',
+  `user_phone`          varchar(40)             NOT NULL        COMMENT '电话' primary key,
   `auth_type`         	tinyint                 DEFAULT 0	      COMMENT '权限等级',
   `user_name`   	      varchar(40)             DEFAULT ''      COMMENT '姓名',
   `user_email`  	      varchar(40)             DEFAULT ''      COMMENT '电子邮箱',
