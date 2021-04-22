@@ -67,6 +67,7 @@ create table `person_info` (
 ~~~
 authType目前规定的枚举如下：
 
+~~~c#
 enum AuthType
 {
     AuthGuest   = 0,        // 未登录/无权限/访客				
@@ -75,3 +76,4 @@ enum AuthType
     AuthManager = 3,        // 管理					预留	
     AuthAdmin   = 4,        // 高管					预留
 }
+~~~
