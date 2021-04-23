@@ -1,5 +1,3 @@
-本需求和exam_covid.md的内容是一样的，但模块名不同
-
 ## 需求描述
 
 
@@ -14,8 +12,8 @@
 | GET      | /api/exam/covid/hospital | 查询医院列表  |
 | GET | /api/exam/covid/remainder | 查询预约余量   |
 | POST     | /api/exam/covid/appointment | 新增预约     |
-| GET      | /api/exam/covid/appointment/user_phone | 查询预约信息  |
-| GET      | /api/exam/covid/report/appoint_id      | 获取体检报告（实现形式待定）  |
+| GET      | /api/exam/covid/appointment/{userPhone} | 查询预约信息  |
+| GET      | /api/exam/covid/report/{appointId}    | 获取体检报告（实现形式待定）  |
 | GET | /api/exam/covid/setting   | 查询余量设置（可迟点实现）  |
 | PUT      | /api/exam/covid/setting   | 修改余量设置（可迟点实现）  |
 
@@ -58,7 +56,7 @@ select distinct hospital from healthguide_exam_covid_capacity;
 | Key | Value | Required | Description |
 | ----- | ------- | ---------- | ------------- |
 | hospital     | string    | y       | 医院名   |
-| appoint_date | long   | y       | 期望预约的日期 |
+| appointDate | long   | y       | 期望预约的日期 |
 
 
 #### Response
@@ -86,9 +84,9 @@ where hospital=XXX, appoint_date=XXX;
 
 | Key | Value | Required | Description |
 | ----- | ------- | ---------- | ------------- |
-| user_phone   | string    | y/n     | 用户id（如果后台能根据header自动确定则这个不用）   |
+| userPhone   | string    | y/n     | 用户id（如果后台能根据header自动确定则这个不用）   |
 | hospital     | string    | y       | 医院名   |
-| appoint_date | long   | y       | 期望预约的日期 |
+| appointDate | long   | y       | 期望预约的日期 |
 | section      | int       | y       | 预约时段 |
 
 #### Response
@@ -118,14 +116,14 @@ where hospital=XXX, appoint_date=XXX;
 数据库操作：
 检验余量是否大于0，若是则插入预约信息，并更新余量
 
-### GET   /api/exam/covid/appointment/{user_phone}  查询预约信息
+### GET   /api/exam/covid/appointment/{userPhone}  查询预约信息
 
 #### Request
 **路由参数**
 
 | Key | Value | Required | Description |
 | ----- | ------- | ---------- | ------------- |
-| user_phone   | string    | y/n     | 用户id （如果后台能根据header自动确定则这个不用）   |
+| userPhone   | string    | y/n     | 用户id （如果后台能根据header自动确定则这个不用）   |
 
 #### Response
 
@@ -150,14 +148,14 @@ where user_phone=XXX;
 （最好能按appoint_id做排序，大的在前面）
 
 
-### GET  /api/exam/covid/report/{appoint_id}  获取核酸检测报告（实现形式待定）
+### GET  /api/exam/covid/report/{appointId}  获取核酸检测报告（实现形式待定）
 
 #### Request
 **路由参数**
 
 | Key | Value | Required | Description |
 | ----- | ------- | ---------- | ------------- |
-| appoint_id   | int    | y     | 预约号  |
+| appointId  | int    | y     | 预约号  |
 
 ### Response
 实现形式待定
@@ -171,7 +169,7 @@ where user_phone=XXX;
 | Key | Value | Required | Description |
 | ----- | ------- | ---------- | ------------- |
 | hospital   | string    | y/n     | 查询的医院（如果可以自动确定则不用）  |
-| appoint_date | int     | y       | 查询的日期 |
+| appointDate | int     | y       | 查询的日期 |
 
 
 #### Response
@@ -181,7 +179,7 @@ where user_phone=XXX;
 	"st": 0,
 	"msg": "",
 	"data":{
-		"default_capacity": 35,
+		"defaultCapacity": 35,
 		"remainder":[0,1,...,20]
 	}
 }
@@ -203,8 +201,8 @@ where hospital=XXX, appoint_date=XXX;
 | ----- | ------- | ---------- | ------------- |
 | hospital   | string    | y/n     | 医院（如果可以自动确定则不用）  |
 | type | int | y | 修改方式（0为方式一，其他为方式二） |
-| default_capacity   | int | n       | 修改默认容量（方式一）   |
-| appoint_date | int       | n       | 修改特定特定日期时段的余量（方式二） |
+| defaultCapacity | int | n       | 修改默认容量（方式一）   |
+| appointDate | int       | n       | 修改特定特定日期时段的余量（方式二） |
 | section      | int       | n       | 修改特定特定日期时段的余量（方式二） |
 | remainder    | int       | n       | 修改特定特定日期时段的余量（方式二） |
 
