@@ -8,62 +8,96 @@
 
 ### API列表
 
-| 请求类型 | PATH                                                         | 描述             |
-| -------- | ------------------------------------------------------------ | ---------------- |
-| GET      | /api/appoinment/doctor/{doctor_id}register_list              | 查看病人挂号列表 |
-| GET      | /api/appoinment/doctor/{patient_id}/infomation?appoint_date=xxxx | 查看病人详细信息 |
+| 请求类型 | PATH                                             | 描述             |
+| -------- | ------------------------------------------------ | ---------------- |
+| GET      | /api/appoinment/doctor/{doctorPhone}/appointList | 查看病人挂号列表 |
 
 ## API文档
 
-### GET  /api/appoinment/doctor/register_list 查看病人挂号列表  
+### GET  /api/appoinment/{doctorId}/appointList 查看病人挂号列表  
 
 #### Request
 
-URL参数
+路由参数
 
-| Key          | Value | Required | Description    |
-| ------------ | ----- | -------- | -------------- |
-| doctor_id    | long  | y        | 医生id         |
-| appoint_date | int   | y        | 预约时间段编号 |
-
-#### Response
-
-```json
-{
-	"st": 0,
-	"msg": "",
-	"data":[
-        ["病人id","病人电话","挂科室","预约时间"]
-        #如：["123456","18888888888","口腔科","2021/4/21"]
-     ]
-}
-```
-
-#### 
-
-### GET  /api/appoinment/doctor/patient_info  查看病人详细信息      
-
-#### Request
+| Key         | Value  | Required | Description |
+| ----------- | ------ | -------- | ----------- |
+| doctorPhone | string | y        | 医生id      |
 
 查询参数
 
-| Key        | Value | Required | Description        |
-| ---------- | ----- | -------- | ------------------ |
-| patient_id | long  | y        | 病人id，即就诊卡id |
+| Key         | Value | Required | Description |
+| ----------- | ----- | -------- | ----------- |
+| appointDate | long  | y        | 预约日期    |
 
-#### Response
+#### Response 
 
 ```json
 {
 	"st": 0,
 	"msg": "",
 	"data":[
-        ["病人id","病人电话","挂科室","预约时间""历史看病记录"]
-        #如：["123456","18888888888","口腔科","2021/4/21","一个看病列表"]
-     ]
+        ["病人姓名","病人电话","挂科室","预约时间","预约时间段"]
+    ]
 }
 ```
+
+
 
 ## 数据表
 
 **复用预约模块的预约记录表healthguide_appointment_register_record来筛选医生对应时间的预约记录**
+
+
+
+## 测试样例（by后端）
+
+### **GET**/api/appointment/doctor/{doctorPhone}/appointList
+
+查询成功：
+
+```json
+doctorPhone = '18888988888'
+appointDate = 1618934400
+
+esponse body
+{
+  "st": 0,
+  "msg": "",
+  "data": {
+    "appointList": [
+      {
+        "patientName": "卢本伟",
+        "patientPhone": "18888888888",
+        "department": "儿科",
+        "appointDate": 1618934400,
+        "section": 1
+      },
+      {
+        "patientName": "卢本伟",
+        "patientPhone": "18888888888",
+        "department": "儿科",
+        "appointDate": 1618934400,
+        "section": 3
+      }
+    ]
+  }
+}
+```
+
+未查询到数据：
+
+```json
+doctorPhone = ''
+appointDate = 1618934400
+
+esponse body
+{
+  "st": 0,
+  "msg": "",
+  "data": {
+    "appointList": []
+  }
+}
+```
+
