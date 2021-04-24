@@ -38,24 +38,24 @@
 	"st": 0,
 	"msg": "",
 	"data": {
-        "post_cnt": 2,
+        	"post_cnt": 2,
 		"posts": [
-        	{
-                "title": "今天天气不错",
-                "author_id": "13912345678",
-                "author": "我是谁",
-                "view_cnt": 123,
-                "reply_cnt": 4,
-                "last_edit_time": timestamp
-            },
-            {
-                "title": "想吃好吃的",
-                "author_id": "13312345678",
-                "author": "皮卡丘",
-                "view_cnt": 456,
-                "reply_cnt": 7,
-                "last_edit_time": timestamp
-            },
+		{
+			"title": "今天天气不错",
+			"author_id": "13912345678",
+			"author": "我是谁",
+			"view_cnt": 123,
+			"reply_cnt": 4,
+			"last_edit_time": timestamp
+		},
+		{
+			"title": "想吃好吃的",
+			"author_id": "13312345678",
+			"author": "皮卡丘",
+			"view_cnt": 456,
+			"reply_cnt": 7,
+			"last_edit_time": timestamp
+	    	},
     	]
     }
 }
