@@ -83,7 +83,7 @@
 	"data":
     {
         "title": "想吃好吃的",
-        "author_id": "13312345678",
+        "authorId": "13312345678",
         "author": "皮卡丘",
         "content": "上课饿了，想吃麦斯威的薯条！",
         "lastEditTime": timestamp,
@@ -108,7 +108,7 @@
 | session   | varchar(10) | 是       | 发布板块    |
 | title     | varchar(40) | 是       | 文章标题    |
 | author    | varchar(40) | 是       | 作者        |
-| author_id | varchar(40) | 是       | 作者ID      |
+| authorId | varchar(40) | 是       | 作者ID      |
 | content   | text        | 是       | 内容        |
 
 #### Response
