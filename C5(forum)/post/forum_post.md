@@ -28,8 +28,8 @@
 
 | Key         | Value | Required | Description      |
 | ----------- | ----- | -------- | ---------------- |
-| page_count  | int   | 是       | 分页中一页的容量 |
-| page_number | int   | 是       | 需要获取页的序数 |
+| pageSize    | int   | 是       | 分页中一页的容量 |
+| pageNo  	  | int   | 是       | 需要获取页的序数 |
 
 #### Response
 
@@ -42,19 +42,19 @@
 		"posts": [
 		{
 			"title": "今天天气不错",
-			"author_id": "13912345678",
+			"authorId": "13912345678",
 			"author": "我是谁",
-			"view_cnt": 123,
-			"reply_cnt": 4,
-			"last_edit_time": timestamp
+			"viewCnt": 123,
+			"replyCnt": 4,
+			"lastEditTime": timestamp
 		},
 		{
 			"title": "想吃好吃的",
-			"author_id": "13312345678",
+			"authorId": "13312345678",
 			"author": "皮卡丘",
-			"view_cnt": 456,
-			"reply_cnt": 7,
-			"last_edit_time": timestamp
+			"viewCnt": 456,
+			"replyCnt": 7,
+			"lastEditTime": timestamp
 	    	},
     	]
     }
@@ -86,11 +86,11 @@
         "author_id": "13312345678",
         "author": "皮卡丘",
         "content": "上课饿了，想吃麦斯威的薯条！",
-        "last_edit_time": timestamp,
-        "view_cnt": 456,
-        "reply_cnt": 7,
-        "like_cnt": 12,
-        "dislike_cnt": 0
+        "lastEditTime": timestamp,
+        "viewCnt": 456,
+        "replyCnt": 7,
+        "likeCnt": 12,
+        "dislikeCnt": 0
     }
 }
 ~~~
@@ -136,12 +136,18 @@
 | ---- | ------ | -------- | ----------- |
 | id   | bigint | 是       | 贴子id      |
 
-**请求头部 Header**
-
+**请求主体 Body**
 | Key     | Value       | Required | Description |
 | ------- | ----------- | -------- | ----------- |
 | title   | varchar(40) | 是       | 文章标题    |
 | content | text        | 是       | 内容        |
+
+~~~json
+{
+	"title" : "xxx",
+	"content" : "xxxx",
+}
+~~~
 
 #### Response
 
