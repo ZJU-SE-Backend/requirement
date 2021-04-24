@@ -193,7 +193,7 @@ create table `forum_post_topic` (
     `author_id` varchar(40) not null comment '作者ID',
     `content` text not null comment '内容',
     `create_time` datetime not null DEFAULT CURRENT_TIMESTAMP comment '创建时间',
-    `last_edit_time` datetime not null comment DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP '最后编辑时间',
+    `last_edit_time` datetime not null comment '最后编辑时间' DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `reply_cnt` int not null comment '回复数',
     `view_cnt` int not null comment '浏览数',
     `like_cnt` int not null comment '点赞数',
