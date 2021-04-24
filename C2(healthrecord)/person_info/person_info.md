@@ -10,13 +10,13 @@
 
 | 请求类型  | PATH                                                          | 描述               |
 | -------- | ------------------------------------------------------------  | ----------------  |
-| GET      | /api/healthrecord/person_info/information                       | 查看用户基本信息     |
+| GET      | /api/healthrecord/personInfo/{userPhone}          | 查看用户基本信息     |
 
 
 
 ## API文档
 
-### GET  /api/healthrecord/person_info/information?user_phone=XXX   查询用户基本信息
+### GET  /api/healthrecord/personInfo/{userPhone}   查询用户基本信息
 
 #### Request
 
@@ -24,7 +24,7 @@
 
 | Key          | Value | Required | Description    |
 | ------------ | ----- | -------- | -------------- |
-| user_phone   |string | y        | 用户id          |
+| userPhone |string | y        | 用户id          |
 
 
 #### Response
@@ -62,7 +62,7 @@ create table `person_info` (
   `user_gender`         enum('male', 'female')  NOT NULL        COMMENT '性别',        
   `user_height`         varchar(10)             NOT NULL        COMMENT '身高',
   `user_weight`         varchar(10)             NOT NULL        COMMENT '体重',
-  `user_ID_number`      varchar(40)             NOT NULL        COMMENT '身份证号',
+  `user_ID_number`      varchar(40)             NOT NULL        COMMENT '身份证号'
 ) engine=InnoDB default charset=utf8mb4 comment='用户的个人信息（用于显示）';
 ~~~
 authType目前规定的枚举如下：
@@ -77,3 +77,51 @@ enum AuthType
     AuthAdmin   = 4,        // 高管					预留
 }
 ~~~
+
+
+
+## 测试样例（by后端）
+
+### **GET**/api/healthrecord/personInfo/{userPhone}
+
+查询成功：
+
+```json
+userPhone = '18888888888'
+
+	
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": {
+    "userPhone": "18888888888",
+    "authType": 1,
+    "userName": "卢本伟",
+    "userEmail": "@",
+    "userGender": "male",
+    "userHeight": "170",
+    "userWeight": "70",
+    "userIDNumber": "ID1"
+  }
+}
+```
+
+查询失败，用户不存在：
+
+```json
+userPhone = '?'
+
+	
+Response body
+{
+  "st": 1,
+  "msg": "数据不一致",
+  "data": null
+}
+```
+
+
+
+
+
