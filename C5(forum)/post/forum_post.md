@@ -38,7 +38,7 @@
 	"st": 0,
 	"msg": "",
 	"data": {
-        	"post_cnt": 2,
+        "total": 2,
 		"posts": [
 		{
 			"title": "今天天气不错",
@@ -117,9 +117,7 @@
 {
 	"st": 0,
 	"msg": "",
-	"data": {
-        "result": true
-    }
+	"data": null
 }
 ~~~
 
@@ -155,9 +153,7 @@
 {
 	"st": 0,
 	"msg": "",
-	"data": {
-        "result": true
-    }
+	"data": null
 }
 ~~~
 
@@ -180,9 +176,7 @@
 {
 	"st": 0,
 	"msg": "",
-	"data": {
-        "result": true
-    }
+	"data": null
 }
 ~~~
 
@@ -192,20 +186,272 @@
 
 ```sql
 create table `forum_post_topic` (
-                                    `topic_id` bigint not null auto_increment comment '主题贴ID',
-                                    `session` varchar(10) not null comment '所属版块',
-                                    `title` varchar(40) not null comment '标题',
-                                    `author_name` varchar(40) not null comment '作者姓名',
-                                    `author_id` varchar(40) not null comment '作者ID',
-                                    `content` text not null comment '内容',
-                                    `reply_cnt` int not null comment '回复数',
-                                    `view_cnt` int not null comment '浏览数',
-                                    `like_cnt` int not null comment '点赞数',
-                                    `dislike_cnt` int not null comment '点踩数',
-                                    `create_time` datetime not null DEFAULT CURRENT_TIMESTAMP comment '创建时间',
-                                    `update_time` datetime not null DEFAULT CURRENT_TIMESTAMP comment '最后编辑时间' ON UPDATE CURRENT_TIMESTAMP,
-                                    primary key (`topic_id`)
+  `topic_id` bigint not null auto_increment comment '主题贴ID',
+  `session` varchar(10) not null comment '所属版块',
+  `title` varchar(40) not null comment '标题',
+  `author_name` varchar(40) not null comment '作者姓名',
+  `author_phone` varchar(40) not null comment '作者ID',
+  `content` text not null comment '内容',
+  `reply_cnt` int default 0 not null comment '回复数',
+  `view_cnt` int default 0 not null comment '浏览数',
+  `like_cnt` int default 0 not null comment '点赞数',
+  `dislike_cnt` int default 0 not null comment '点踩数',
+  `create_time` datetime not null DEFAULT CURRENT_TIMESTAMP comment '创建时间',
+  `update_time` datetime not null DEFAULT CURRENT_TIMESTAMP comment '最后编辑时间' ON UPDATE CURRENT_TIMESTAMP,
+  primary key (`topic_id`)
 ) engine=InnoDB default charset=utf8mb4 comment='健康论坛主题贴';
+
+insert into healthguide_forum_post_topic (session, title, author_name, author_phone, content, reply_cnt, view_cnt, like_cnt, dislike_cnt) values 
+('病情讨论','你好','卢本伟','18888888888','大家好','1','1','1','0'),
+('病情讨论','你好2','卢本伟','18888888888','大家好2','1','1','0','1');                                                                                                           
+select * from healthguide_forum_post_topic;
+drop table `healthguide_forum_post_topic`;
 ```
+
+
+
+## 测试样例（by后端）
+
+### **GET**/api/forum/post
+
+每页显示1条记录，取出第1页：
+
+```json
+pageSize = 1
+pageNo = 1
+
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": {
+    "total": 2,
+    "posts": [
+      {
+        "title": "你好",
+        "authorId": "18888888888",
+        "authorName": "卢本伟",
+        "viewCnt": 1,
+        "replyCnt": 1,
+        "lastEditTime": 1619266204
+      }
+    ]
+  }
+}
+```
+
+每页显示1条记录，取出第2页：
+
+```json
+pageSize = 1
+pageNo = 2
+
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": {
+    "total": 2,
+    "posts": [
+      {
+        "title": "你好2",
+        "authorId": "18888888888",
+        "authorName": "卢本伟",
+        "viewCnt": 1,
+        "replyCnt": 1,
+        "lastEditTime": 1619266204
+      }
+    ]
+  }
+}
+```
+
+每页显示2条记录，取出第1页：
+
+```json
+pageSize = 1
+pageNo = 2
+
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": {
+    "total": 2,
+    "posts": [
+      {
+        "title": "你好",
+        "authorId": "18888888888",
+        "authorName": "卢本伟",
+        "viewCnt": 1,
+        "replyCnt": 1,
+        "lastEditTime": 1619266204
+      },
+      {
+        "title": "你好2",
+        "authorId": "18888888888",
+        "authorName": "卢本伟",
+        "viewCnt": 1,
+        "replyCnt": 1,
+        "lastEditTime": 1619266204
+      }
+    ]
+  }
+}
+```
+
+每页显示2条记录，取出第3页（超出页面范围）：
+
+```json
+pageSize = 1
+pageNo = 2
+
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": {
+    "total": 2,
+    "posts": []
+  }
+}
+```
+
+
+
+### **GET**/api/forum/post/{id}
+
+成功查询：
+
+```json
+id = 1
+
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": {
+    "title": "你好",
+    "authorName": "卢本伟",
+    "authorPhone": "18888888888",
+    "content": "大家好",
+    "replyCnt": 1,
+    "viewCnt": 1,
+    "likeCnt": 1,
+    "dislikeCnt": 0,
+    "updateTime": 1619266204
+  }
+}
+```
+
+未找到：
+
+```json
+id = 100
+
+Response body
+{
+  "st": 1,
+  "msg": "数据不一致",
+  "data": null
+}
+```
+
+
+
+### **POST**/api/forum/post
+
+成功发布：
+
+```json
+Request body
+{
+  "session": "string",
+  "title": "string",
+  "authorName": "string",
+  "authorPhone": "string",
+  "content": "string"
+}
+	
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": null
+}
+```
+
+
+
+### **PUT**/api/forum/post/{id}
+
+修改成功，数据库验证正确：
+
+```json
+id = 1
+
+Request body
+{
+  "title": "修改",
+  "content": "string"
+}
+
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": null
+}
+```
+
+修改失败，未找到id：
+
+```json
+id = 0
+
+Request body
+{
+  "title": "修改",
+  "content": "string"
+}
+
+Response body
+{
+  "st": 1,
+  "msg": "数据不一致",
+  "data": null
+}
+```
+
+
+
+### **DELETE**/api/forum/post/{id}
+
+删除成功，数据库验证正确：
+
+```json
+id = 1
+
+Response body
+{
+  "st": 0,
+  "msg": "",
+  "data": null
+}
+```
+
+删除失败，未找到id：
+
+```json
+id = 0
+
+Response body
+{
+  "st": 1,
+  "msg": "数据不一致",
+  "data": null
+}
+```
+
 
 
