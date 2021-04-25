@@ -8,9 +8,11 @@
 
 ### API列表
 
-| 请求类型 | PATH                                             | 描述             |
-| -------- | ------------------------------------------------ | ---------------- |
-| GET      | /api/appoinment/doctor/{doctorPhone}/appointList | 查看病人挂号列表 |
+| 请求类型 | PATH                                             | 描述                   |
+| -------- | ------------------------------------------------ | ---------------------- |
+| GET      | /api/appoinment/doctor/appointList/{doctorPhone} | 查看病人挂号列表       |
+| GET      | /api/appoinment/doctor/{patientPhone}            | 查看病人历史病案       |
+| GET      | /api/appoinment/doctor/department/{patientPhone} | 查看病人在某科室的病案 |
 
 ## API文档
 
@@ -41,6 +43,67 @@
     ]
 }
 ```
+
+
+
+### GET  /api/appoinment/doctor/{patientPhone} 查看病人历史病案
+
+#### Request
+
+URL参数
+| Key          | Value  | Required | Description |
+| ------------ | ------ | -------- | ----------- |
+| patientPhone | string | y        | 病人id      |
+
+
+#### Response
+
+```
+{
+	"st": 0,
+	"msg": "",
+	"data":{
+        "病人姓名","病人电话"，
+        "历史病案记录"：
+        [{病案id，病案时间，医生姓名，科室，医生电话，诊断信息}]
+    }
+}
+```
+
+
+
+### GET  /api/appoinment/doctor/department/{patientPhone} 查看病人历史病案
+
+#### Request
+
+URL参数
+
+| Key          | Value  | Required | Description |
+| ------------ | ------ | -------- | ----------- |
+| patientPhone | string | y        | 病人id      |
+
+查询参数
+
+| Key        | Value  | Required | Description |
+| ---------- | ------ | -------- | ----------- |
+| department | string | n        | 科室        |
+
+
+#### Response
+
+```
+{
+	"st": 0,
+	"msg": "",
+	"data":{
+        "病人姓名","病人电话"，"科室",
+        "历史病案记录"：
+        [{病案id，病案时间，医生姓名，医生电话，诊断信息}]
+    }
+}
+```
+
+
 
 
 
