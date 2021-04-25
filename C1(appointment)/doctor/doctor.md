@@ -72,7 +72,7 @@ URL参数
 
 
 
-### GET  /api/appoinment/doctor/department/{patientPhone} 查看病人历史病案
+### GET   /api/appoinment/doctor/department/{patientPhone} 查看病人历史病案
 
 #### Request
 
