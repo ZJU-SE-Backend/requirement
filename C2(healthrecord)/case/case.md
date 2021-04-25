@@ -44,7 +44,8 @@
 建议数据库操作：
 
 ~~~sql
-select patient_name, case_id, info from healthguide_healthrecord_case_record ;
+select patient_name, case_id, info from healthguide_healthrecord_case_record 
+where user_phone=xxx;
 ~~~
 
 
@@ -56,8 +57,7 @@ select patient_name, case_id, info from healthguide_healthrecord_case_record ;
 
 | Key          | Value | Required | Description    |
 | ------------ | ----- | -------- | -------------- |
-| userPhone    | string  | y        | 病人id              |
-| caseId    | long | y        | 病案id              |
+| caseId      | long    | y        | 病案id         |
 
 
 #### Response
@@ -76,8 +76,7 @@ select patient_name, case_id, info from healthguide_healthrecord_case_record ;
 
 ~~~sql
 select * from healthguide_healthrecord_case_record  
-where case_id=xxx
-;
+where case_id=xxx;
 ~~~
 
 ## 数据表
