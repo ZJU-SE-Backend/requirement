@@ -7,13 +7,15 @@
 
 ### API列表
 
-| 请求类型 | PATH                 | 描述                       |
-| -------- | -------------------- | -------------------------- |
-| GET      | /api/forum/post      | 查询主题贴列表             |
-| GET      | /api/forum/post/{id} | 查询单个主题贴的信息       |
-| POST     | /api/forum/post      | 新增主题贴                 |
-| PUT      | /api/forum/post/{id} | 贴子内容编辑（可晚点实现） |
-| DELETE   | /api/forum/post/{id} | 删除贴子（可晚点实现）     |
+| 请求类型 | PATH                               | 描述                   |
+| -------- | ---------------------------------- | ---------------------- |
+| GET      | /api/forum/post                    | 查询主题贴列表         |
+| GET      | /api/forum/post/{id}               | 查询单个主题贴的信息   |
+| GET      | /api/forum/post/user/{authorPhone} | 查询某用户发的所有贴子 |
+| POST     | /api/forum/post                    | 新增主题贴             |
+| PUT      | /api/forum/post/{id}               | 贴子内容编辑           |
+| PUT      | /api/forum/post/addViewCnt/{id}    | 增加贴子浏览数         |
+| DELETE   | /api/forum/post/{id}               | 删除贴子               |
 
 
 
@@ -41,19 +43,25 @@
         "total": 2,
 		"posts": [
 		{
+            "topicId": 1,
 			"title": "今天天气不错",
 			"authorId": "13912345678",
 			"author": "我是谁",
 			"viewCnt": 123,
 			"replyCnt": 4,
+            "likeCnt": 12,
+        	"dislikeCnt": 0,
 			"lastEditTime": timestamp
 		},
 		{
+            "topicId": 2,
 			"title": "想吃好吃的",
 			"authorId": "13312345678",
 			"author": "皮卡丘",
 			"viewCnt": 456,
 			"replyCnt": 7,
+            "likeCnt": 1,
+        	"dislikeCnt": 12,
 			"lastEditTime": timestamp
 	    	},
     	]
@@ -91,6 +99,61 @@
         "replyCnt": 7,
         "likeCnt": 12,
         "dislikeCnt": 0
+    }
+}
+~~~
+
+
+
+### GET /api/forum/post/user/{authorPhone} 查询某用户的所有贴子
+
+#### Request
+
+**路由参数 URL Params**
+
+
+| Key         | Value  | Required | Description  |
+| ----------- | ------ | -------- | ------------ |
+| authorPhone | bigint | 是       | 作者电话号码 |
+
+**查询参数 Query Params**
+
+
+| Key      | Value | Required | Description      |
+| -------- | ----- | -------- | ---------------- |
+| pageSize | int   | 是       | 分页中一页的容量 |
+| pageNo   | int   | 是       | 需要获取页的序数 |
+
+
+
+#### Response
+
+~~~json
+{
+	"st": 0,
+	"msg": "",
+	"data": {
+        "total": 2,
+		"posts": [
+		{
+            "topicId": 1,
+			"title": "今天天气不错",
+			"viewCnt": 123,
+			"replyCnt": 4,
+            "likeCnt": 1,
+        	"dislikeCnt": 12,
+			"lastEditTime": timestamp
+		},
+		{
+            "topicId": 2,
+			"title": "想吃好吃的",
+			"viewCnt": 456,
+			"replyCnt": 7,
+            "likeCnt": 1,
+        	"dislikeCnt": 12,
+			"lastEditTime": timestamp
+	    	},
+    	]
     }
 }
 ~~~
@@ -146,6 +209,29 @@
 	"content" : "xxxx",
 }
 ~~~
+
+#### Response
+
+~~~json
+{
+	"st": 0,
+	"msg": "",
+	"data": null
+}
+~~~
+
+
+
+### PUT /api/forum/post/addViewCnt/{id} 增加贴子浏览数
+
+#### Request
+
+**路由参数 URL Params**
+
+
+| Key  | Value  | Required | Description |
+| ---- | ------ | -------- | ----------- |
+| id   | bigint | 是       | 贴子id      |
 
 #### Response
 
