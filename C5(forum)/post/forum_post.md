@@ -589,7 +589,7 @@ drop table `healthguide_forum_post_topic_like`;
 ```mysql
 create table `healthguide_forum_post_topic_favorite` (
    	`topic_id` bigint not null comment '主题贴ID',
-    `user_phone` varchar(40) not null comment '赞踩者ID',
+    `user_phone` varchar(40) not null comment '收藏者ID',
     `title` varchar(40) not null comment '标题',
     `favorite_time` datetime not null DEFAULT CURRENT_TIMESTAMP comment '收藏时间',
     primary key (`topic_id`, `user_phone`),

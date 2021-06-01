@@ -344,7 +344,7 @@ drop table `healthguide_forum_post_topic_reply`;
 
 ```mysql
 create table `healthguide_forum_post_topic_reply_like` (
-   	`reply_id` bigint not null comment '被收藏的回复ID',
+   	`reply_id` bigint not null comment '回复ID',
     `user_phone` varchar(40) not null comment '赞踩者ID',
     `like` tinyint(1) not null comment '1表示赞 0表示踩',
     primary key (`reply_id`, `user_phone`)
