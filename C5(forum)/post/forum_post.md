@@ -314,7 +314,7 @@
 | ------- | ------ | -------- | ----------- |
 | topicId | bigint | 是       | 贴子id      |
 
-**查询参数 Query Params**
+**请求头部 Header**
 
 
 | Key       | Value      | Required | Description      |
@@ -486,7 +486,7 @@
 | ------- | ------ | -------- | ----------- |
 | topicId | bigint | 是       | 贴子id      |
 
-**查询参数 Query Params**
+**请求头部 Header**
 
 
 | Key       | Value       | Required | Description  |
@@ -504,7 +504,7 @@
 }
 ~~~
 
-#### 
+
 
 ### DELETE  /api/forum/post/favorite/{topicId}  用户取消收藏
 

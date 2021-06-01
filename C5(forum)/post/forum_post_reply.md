@@ -41,6 +41,8 @@
 | pageSize | int   | 是       | 分页中一页的容量 |
 | pageNo   | int   | 是       | 需要获取页的序数 |
 
+#### Response
+
 ```json
 {
 	"st": 0,
@@ -86,7 +88,7 @@
 | ------- | ------ | -------- | ----------- |
 | topicId | bigint | 是       | 主题贴ID    |
 
-**请求主体 Body**
+**请求头部 Header**
 
 | Key         | Value       | Required | Description  |
 | ----------- | ----------- | -------- | ------------ |
@@ -221,7 +223,7 @@
 | ------- | ------ | -------- | ----------- |
 | replyId | bigint | 是       | 回复id      |
 
-**查询参数 Query Params**
+**请求头部 Header**
 
 
 | Key         | Value      | Required | Description      |
@@ -285,7 +287,7 @@
 
 | Key     | Value  | Required | Description |
 | ------- | ------ | -------- | ----------- |
-| replyId | bigint | 是       | 贴子id      |
+| replyId | bigint | 是       | 回复id      |
 
 **请求主体 Body**
 
