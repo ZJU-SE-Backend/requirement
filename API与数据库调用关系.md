@@ -10,8 +10,9 @@
 
 | 模块名 | AppointmentPatient                              |                                                              |
 | ------ | ----------------------------------------------- | ------------------------------------------------------------ |
-| GET    | /api/appointment/patient/hospital               | healthguide_appointment_hospital                             |
-| GET    | /api/appointment/patient/department/{hospital}  | healthguide_appointment_hospital                             |
+| GET    | /api/appointment/patient/hospital               | healthguide_appointment_hospital_position                    |
+| GET    | /api/appointment/patient/department/{hospital}  | healthguide_appointment_hospital_department                  |
+| GET    | /api/appointment/patient/subdepart/{department} | healthguide_appointment_hospital_department                  |
 | GET    | /api/appointment/patient/doctorList             | healthguide_appointment_doctor                               |
 | POST   | /api/appointment/patient/appoint                | healthguide_appointment_doctor, healthguide_appointment_patient_appoint |
 | GET    | /api/appointment/patient/appoint/{patientPhone} | healthguide_appointment_patient_appoint                      |
