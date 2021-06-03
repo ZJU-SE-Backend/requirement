@@ -340,39 +340,6 @@
 
 
 
-### PUT  /api/forum/post/like/{topicId}  赞/踩修改
-
-**路由参数 URL Params**
-
-
-| Key     | Value  | Required | Description |
-| ------- | ------ | -------- | ----------- |
-| topicId | bigint | 是       | 贴子id      |
-
-**请求主体 Body**
-
-
-| Key       | Value      | Required | Description      |
-| --------- | ---------- | -------- | ---------------- |
-| userPhone | bigint     | 是       | 用户电话号码     |
-| like      | tinyint(1) | 是       | 1表示赞，0表示踩 |
-
-#### Response
-
-~~~json
-{
-	"st": 0,
-	"msg": "",
-	"data": null
-}
-~~~
-
-#### 备注
-
-同时需要修改 `healthguide_forum_post_topic` 表中对应主题贴的赞踩计数。
-
-
-
 ### DELETE  /api/forum/post/like/{topicId}  取消赞踩
 
 **路由参数 URL Params**
@@ -489,10 +456,9 @@
 **请求头部 Header**
 
 
-| Key       | Value       | Required | Description  |
-| --------- | ----------- | -------- | ------------ |
-| userPhone | bigint      | 是       | 用户电话号码 |
-| title     | varchar(40) | 是       | 文章标题     |
+| Key       | Value  | Required | Description  |
+| --------- | ------ | -------- | ------------ |
+| userPhone | bigint | 是       | 用户电话号码 |
 
 #### Response
 
