@@ -244,39 +244,6 @@
 
 
 
-### PUT  /api/forum/qa/answer/reply/like/{replyId}  赞/踩修改
-
-**路由参数 URL Params**
-
-
-| Key     | Value  | Required | Description |
-| ------- | ------ | -------- | ----------- |
-| replyId | bigint | 是       | 回复id      |
-
-**请求主体 Body**
-
-
-| Key       | Value      | Required | Description      |
-| --------- | ---------- | -------- | ---------------- |
-| userPhone | bigint     | 是       | 用户电话号码     |
-| like      | tinyint(1) | 是       | 1表示赞，0表示踩 |
-
-#### Response
-
-~~~json
-{
-	"st": 0,
-	"msg": "",
-	"data": null
-}
-~~~
-
-#### 备注
-
-同时需要修改 `healthguide_forum_qa_answer_reply` 表中对应主题贴的赞踩计数。
-
-
-
 ### DELETE  /api/forum/qa/answer/reply/like/{replyId}  取消赞踩
 
 **路由参数 URL Params**

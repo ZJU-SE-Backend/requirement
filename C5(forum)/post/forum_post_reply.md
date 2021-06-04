@@ -92,7 +92,6 @@
 
 | Key         | Value       | Required | Description  |
 | ----------- | ----------- | -------- | ------------ |
-| userName      | varchar(40) | 是       | 用户         |
 | userPhone | varchar(40) | 是       | 用户电话号码 |
 | content     | text        | 是       | 内容         |
 
@@ -170,7 +169,7 @@
 }
 ~~~
 
-除在 `healthguide_forum_post_topic_reply` 删除一个记录之外，还需要修改`healthguide_forum_post_topic` 表中对应的回复计数。
+惰性删除：把内容设置为空（content=""）
 
 
 
@@ -244,39 +243,6 @@
 #### 备注
 
 除在 `healthguide_forum_post_topic_reply_like` 新增一个记录之外，还需要修改`healthguide_forum_post_topic_reply` 表中对应主题贴的赞踩计数。
-
-
-
-### PUT  /api/forum/post/reply/like/{replyId}  赞/踩修改
-
-**路由参数 URL Params**
-
-
-| Key     | Value  | Required | Description |
-| ------- | ------ | -------- | ----------- |
-| replyId | bigint | 是       | 回复id      |
-
-**请求主体 Body**
-
-
-| Key       | Value      | Required | Description      |
-| --------- | ---------- | -------- | ---------------- |
-| userPhone | bigint     | 是       | 用户电话号码     |
-| like      | tinyint(1) | 是       | 1表示赞，0表示踩 |
-
-#### Response
-
-~~~json
-{
-	"st": 0,
-	"msg": "",
-	"data": null
-}
-~~~
-
-#### 备注
-
-同时需要修改 `healthguide_forum_post_topic_reply` 表中对应主题贴的赞踩计数。
 
 
 

@@ -262,29 +262,6 @@
 
 
 
-### PUT  /api/forum/qa/answer/addViewCnt/{answerId}  增加回答浏览数
-
-#### Request
-
-**路由参数 URL Params**
-
-
-| Key      | Value  | Required | Description |
-| -------- | ------ | -------- | ----------- |
-| answerId | bigint | 是       | 回答ID      |
-
-#### Response
-
-~~~json
-{
-	"st": 0,
-	"msg": "",
-	"data": null
-}
-~~~
-
-
-
 
 
 ### DELETE  /api/forum/qa/answer/{answerId}  删除回答
@@ -309,6 +286,29 @@
 ~~~
 
 除在 `healthguide_forum_qa_answer` 删除一个记录之外，还需要修改`healthguide_forum_qa_question` 表中对应的回复计数。
+
+
+
+### PUT  /api/forum/qa/answer/addViewCnt/{answerId}  增加回答浏览数
+
+#### Request
+
+**路由参数 URL Params**
+
+
+| Key      | Value  | Required | Description |
+| -------- | ------ | -------- | ----------- |
+| answerId | bigint | 是       | 回答ID      |
+
+#### Response
+
+~~~json
+{
+	"st": 0,
+	"msg": "",
+	"data": null
+}
+~~~
 
 
 
@@ -382,39 +382,6 @@
 #### 备注
 
 除在 `healthguide_forum_qa_answer_like` 新增一个记录之外，还需要修改`healthguide_forum_qa_answer` 表中对应回答的赞踩计数。
-
-
-
-### PUT  /api/forum/qa/answer/like/{answerId}  赞/踩修改
-
-**路由参数 URL Params**
-
-
-| Key      | Value  | Required | Description |
-| -------- | ------ | -------- | ----------- |
-| answerId | bigint | 是       | 回答id      |
-
-**请求主体 Body**
-
-
-| Key       | Value      | Required | Description      |
-| --------- | ---------- | -------- | ---------------- |
-| userPhone | bigint     | 是       | 用户电话号码     |
-| like      | tinyint(1) | 是       | 1表示赞，0表示踩 |
-
-#### Response
-
-~~~json
-{
-	"st": 0,
-	"msg": "",
-	"data": null
-}
-~~~
-
-#### 备注
-
-同时需要修改 `healthguide_forum_qa_answer` 表中对应主题贴的回答计数。
 
 
 
@@ -536,11 +503,9 @@
 **请求头部 Header**
 
 
-| Key       | Value        | Required | Description  |
-| --------- | ------------ | -------- | ------------ |
-| userPhone | bigint       | 是       | 用户电话号码 |
-| title     | varchar(40)  | 是       | 问题标题     |
-| content   | varchar(100) | 是       | 回答内容     |
+| Key       | Value  | Required | Description  |
+| --------- | ------ | -------- | ------------ |
+| userPhone | bigint | 是       | 用户电话号码 |
 
 #### Response
 
