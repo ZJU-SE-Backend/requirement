@@ -40,14 +40,16 @@
         		"name": "阿司匹林",
                 "type": "抗生素",
         		"price": 21.99,
-                "sIndication": "用于发热、疼痛及类风湿关节炎等"
+                "sIndication": "用于发热、疼痛及类风湿关节炎等",
+        "picPath": "https://se2021-pic-bed.oss-cn-shanghai.aliyuncs.com/phermacy/previewImage/1.jpg"
         	},
             {
             	"id": 2
         		"name": "阿莫西林",
                 "type": "抗生素",
         		"price": 24.99,
-                "sIndication": "细菌感染"
+                "sIndication": "细菌感染",
+        "picPath": "https://se2021-pic-bed.oss-cn-shanghai.aliyuncs.com/phermacy/previewImage/1.jpg"
         	}
     	]
     }
@@ -83,7 +85,8 @@ select id, name, type, price, sIndication from healthguide_phar_booth_medicine w
         "lIndication": "阿莫西林用以治疗伤寒、其他沙门菌感染和伤寒带菌者可获得满意疗效。",
         "usageAndDosage": "口服：①成人1次0.5g，每6～8小时1次，每日剂量不超过4g；",
         "adr": "过敏反应症状：可出现药物热、荨麻疹、皮疹和哮喘等，尤易发生于传染性单核细胞增多症患者，少见过敏性休克",
-        "contraindications": "国家卫生部门规定，使用阿莫西林前必须进行青霉素皮肤试验，阳性反应者禁用。"
+        "contraindications": "国家卫生部门规定，使用阿莫西林前必须进行青霉素皮肤试验，阳性反应者禁用。",
+        "picPath": "https://se2021-pic-bed.oss-cn-shanghai.aliyuncs.com/phermacy/previewImage/1.jpg"
     }
 }
 ```
@@ -115,7 +118,8 @@ select name, type, price, lIndication, usageAndDosage, adr, contraindications fr
         "name": "阿司匹林",
         "type": "抗生素",
         "price": 21.99,
-        "sIndication": "用于发热、疼痛及类风湿关节炎等"
+        "sIndication": "用于发热、疼痛及类风湿关节炎等",
+        "picPath": "https://se2021-pic-bed.oss-cn-shanghai.aliyuncs.com/phermacy/previewImage/1.jpg"
     }
 }
 ```
@@ -142,14 +146,15 @@ create table healthguide_phar_booth_medicine (
     lIndication text comment '适用症',
     usageAndDosage text comment '用法用量',
     adr text comment '不良反应',
-    contraindications text comment '禁忌'
+    contraindications text comment '禁忌',
+    picPath text comment '图片路径'
 ) engine=InnoDB default charset=utf8mb4 comment='存储所有药品信息的总表';
 
-insert into healthguide_phar_booth_medicine(name, cata, type, price, sIndication, lIndication, usageAndDosage, adr, contraindications)values
+insert into healthguide_phar_booth_medicine(name, cata, type, price, sIndication, lIndication, usageAndDosage, adr, contraindications, picPath)values
 ( "阿莫西林", "感冒头痛", "抗生素", 24.55, "季节性头痛",
- "季节性头痛", "用法用量", "不良反应", "禁忌"),
+ "季节性头痛", "用法用量", "不良反应", "禁忌", "https://se2021-pic-bed.oss-cn-shanghai.aliyuncs.com/phermacy/previewImage/1.jpg"),
 ( "阿莫西林1", "感冒头痛", "抗生素", 30.00, "季节性头痛1",
-    "季节性头痛1", "用法用量1", "不良反应1", "禁忌1");
+    "季节性头痛1", "用法用量1", "不良反应1", "禁忌1", "https://se2021-pic-bed.oss-cn-shanghai.aliyuncs.com/phermacy/previewImage/2.jpg");
     
 select * from healthguide_phar_booth_medicine;
 drop table `healthguide_phar_booth_medicine`;
@@ -336,7 +341,7 @@ Response body
 
 如果不存在数据仅返回null，st还是0
 
-```json
+```
 name = "?"
 
 Response body
