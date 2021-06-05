@@ -212,7 +212,7 @@
 
 
 
-### PUT  /api/forum/qa/question/addViewCnt/{questionId}  增加问题浏览数
+### DELETE  /api/forum/qa/question/{questionId}  删除问题
 
 #### Request
 
@@ -235,7 +235,7 @@
 
 
 
-### DELETE  /api/forum/qa/question/{questionId}  删除问题
+### PUT  /api/forum/qa/question/addViewCnt/{questionId}  增加问题浏览数
 
 #### Request
 

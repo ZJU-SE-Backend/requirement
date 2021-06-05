@@ -51,7 +51,6 @@
 		"posts": [
 		{
 			"replyId": 1,
-            "answerId": 1,
 			"userPhone": "18888888888",
 			"userName": "卢本伟",
             "content": "这个回答不错",
@@ -61,7 +60,6 @@
 		},
 		{
 			"replyId": 2,
-            "answerId": 2,
 			"userPhone": "18888888888",
 			"userName": "卢本伟",
             "content": "这个回答8行",
@@ -91,7 +89,6 @@
 
 | Key       | Value       | Required | Description  |
 | --------- | ----------- | -------- | ------------ |
-| userName  | varchar(40) | 是       | 用户         |
 | userPhone | varchar(40) | 是       | 用户电话号码 |
 | content   | text        | 是       | 内容         |
 
@@ -105,7 +102,7 @@
 }
 ~~~
 
-#### 备注
+#### 备注 
 
 除在 `healthguide_forum_qa_answer_reply` 新增一个记录之外，还需要修改`healthguide_forum_qa_answer` 表中对应的回复计数。
 
@@ -167,9 +164,7 @@
 }
 ~~~
 
-除在 `healthguide_forum_qa_answer_reply` 删除一个记录之外，还需要修改`healthguide_forum_qa_answer` 表中对应的回复计数。
-
-
+惰性删除，content=""
 
 ### GET  /api/forum/qa/answer/reply/like/{answerId}  获取用户对回答下某页回复的赞踩情况
 
