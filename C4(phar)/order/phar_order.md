@@ -52,7 +52,7 @@
 
 ```json
 {
-  "userPhone": "13777777777",
+  
   "orderId": 202106041452
 }
 ```
@@ -90,7 +90,7 @@
 
 ```json
 {
-  "userPhone": "13777777777",
+ 
   "orderId": 202106041452,
   "state": "已完成"
 }
@@ -114,23 +114,19 @@
 ```json
 {
   "userPhone": "13777777777",
-  "orderId": 202106041452,
   "state": "已完成",
   "list": [
       {
           "medicineId": 1, 
           "amount": 2, 
-          "price": 13.99
       },
       {
           "medicineId": 6, 
           "amount": 3, 
-          "price": 22.33
       },
       {
           "medicineId": 7, 
           "amount": 1, 
-          "price": 55.23
       }
   ]
 }
@@ -152,17 +148,18 @@
 存储所有订单信息的总表
 
 ~~~sql
-create table healthguide_phar_order_orders (
-    user_phone varchar(40) not null comment '电话',
-	order_id int not null comment '订单id,同时也是时间戳',
-    state enum("待支付", "配送中", "已完成", "售后处理中") not null comment '订单状态',
-	total_price float not null comment '总价' ,
-    primary key(user_phone, order_id),
-    foreign key(user_phone) references user_info(user_phone)
+drop table `healthguide_phar_order_orders`;
+create table `healthguide_phar_order_orders` (
+                                               `order_id` bigint not null comment '药品id' primary key auto_increment,
+                                               `user_phone` varchar(40) not null comment '电话',
+                                               `state` enum('待支付', '配送中', '已完成', '售后处理中') not null comment '订单状态',
+                                               `total_price` float not null comment '总价' ,
+                                               `create_time` datetime not null DEFAULT CURRENT_TIMESTAMP comment '创建时间',
+                                               `update_time` datetime not null DEFAULT CURRENT_TIMESTAMP comment '最后编辑时间' ON UPDATE CURRENT_TIMESTAMP
 ) engine=InnoDB default charset=utf8mb4 comment='存储所有订单信息的总表';
-
-insert into healthguide_phar_order_orders(user_phone, order_id, state, total_price)
-("13777777777", 202106041452, '已完成', 47.98);
+insert into healthguide_phar_order_orders(user_phone, state, total_price) values
+('13777777777', '已完成', 79.10);
+select * from healthguide_phar_order_orders;
 ~~~
 
 **healthguide_phar_order_details**
@@ -170,17 +167,17 @@ insert into healthguide_phar_order_orders(user_phone, order_id, state, total_pri
 存放订单详细信息的总表
 
 ~~~sql
+drop table `healthguide_phar_order_details`;
 create table healthguide_phar_order_details (
-    user_phone varchar(40) not null comment '电话',
-	order_id int not null comment '订单id',
-	medicine_id int not null comment '药品id',
-    amount int not null comment '药品数量',
-    price float not null comment '价格' ,
-    primary key(user_phone, order_id, medicine_id),
-    foreign key(medicine_id) references healthguide_phar_booth_medicine(id)
+                                                `order_id` bigint not null comment '订单id',
+                                                `medicine_id` bigint not null comment '药品id',
+                                                `amount` int not null comment '药品数量',
+                                                `price` float not null comment '价格' ,
+                                                primary key(order_id, medicine_id),
+                                                foreign key(medicine_id) references healthguide_phar_booth_medicine(id)
 ) engine=InnoDB default charset=utf8mb4 comment='存放订单详细信息的总表';
-
-insert into healthguide_phar_order_details(user_phone, order_id, medicine_id, amount, price)values
-("13777777777", 202106041452, 1, 2, 13.99),
-("13777777777", 202106041452, 3, 4, 23.88);
+insert into healthguide_phar_order_details(order_id, medicine_id, amount, price)values
+(1, 1, 2, 49.10),
+(1, 2, 1, 30.00);
+select * from healthguide_phar_order_details;
 ~~~
