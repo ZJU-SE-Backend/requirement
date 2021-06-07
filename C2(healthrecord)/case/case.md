@@ -94,7 +94,8 @@ create table `healthguide_healthrecord_case_record` (
     `case_result`   varchar(80) not null    comment '病案诊断信息',
     `cost`          decimal(10,2) not null  comment '诊断费用',
     `medicine`      varchar(40) not null    comment '推荐药品名称',
-    `create_time`   datetime  default current_timestamp   not null    comment '病案创建时间'
+    `create_time`   datetime  default current_timestamp   not null    comment '病案创建时间',
+    `oper_info`     varchar(80) not null    comment '手术信息' 
 )  engine=InnoDB default charset=utf8mb4 comment='所有病人的所有病案信息';
 insert into healthguide_healthrecord_case (patient_phone, hospital, doctor_name, doctor_phone, case_result, cost, medicine) values 
 ('18888888888', '浙一', '赵嘉成','18888988888','儿科记录', 20.00, '阿莫西林'),
@@ -172,7 +173,8 @@ Response body
     "caseResult": "儿科记录",
     "cost": 20,
     "medicine": "阿莫西林",
-    "createTime": 1619167737
+    "createTime": 1619167737,
+    "operInfo": "手术很成功"
   }
 }
 ```

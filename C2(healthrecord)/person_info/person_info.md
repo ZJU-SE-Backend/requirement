@@ -60,9 +60,11 @@ create table `person_info` (
   `user_name`   	      varchar(40)             DEFAULT ''      COMMENT '姓名',
   `user_email`  	      varchar(40)             DEFAULT ''      COMMENT '电子邮箱',
   `user_gender`         enum('male', 'female')  NOT NULL        COMMENT '性别',        
-  `user_height`         varchar(10)             NOT NULL        COMMENT '身高',
-  `user_weight`         varchar(10)             NOT NULL        COMMENT '体重',
-  `user_ID_number`      varchar(40)             NOT NULL        COMMENT '身份证号'
+  `user_height`         integer                 DEFAULT 165     COMMENT '身高',
+  `user_weight`         integer                 DEFAULT 55      COMMENT '体重',
+  `user_ID_number`      varchar(40)             NOT NULL        COMMENT '身份证号',
+  `healthcode_type`     tinyint                 DEFAULT 0       COMMENT '健康码等级',
+  `soc_insure_number`    varchar(40)             NOT NULL        COMMENT '社保账号'
 ) engine=InnoDB default charset=utf8mb4 comment='用户的个人信息（用于显示）';
 ~~~
 authType目前规定的枚举如下：
@@ -75,6 +77,13 @@ enum AuthType
     AuthDoctor  = 2,        // 医生
     AuthManager = 3,        // 管理					预留	
     AuthAdmin   = 4,        // 高管					预留
+}
+
+enum HealthcodeType
+{
+  Green   = 0,    // 绿码
+  Yellow  = 1,    // 黄码
+  Red     = 2,    // 红码
 }
 ~~~
 
@@ -102,7 +111,9 @@ Response body
     "userGender": "male",
     "userHeight": "170",
     "userWeight": "70",
-    "userIDNumber": "ID1"
+    "userIDNumber": "ID1",
+    "healcodeType": 0,
+    "socInsureNumber": "ID2"
   }
 }
 ```
