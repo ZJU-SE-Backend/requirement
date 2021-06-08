@@ -6,15 +6,19 @@
 
 ### API列表
 
-| 请求类型 | PATH                                           | 描述               |
-| -------- | ---------------------------------------------- | ------------------ |
-| GET      | /api/forum/qa/question                         | 查询问题列表       |
-| GET      | /api/forum/qa/question/{questionId}            | 查询单个问题的信息 |
-| GET      | /api/forum/qa/question/user/{userPhone}        | 查询用户提出的问题 |
-| POST     | /api/forum/qa/question                         | 新增问题           |
-| PUT      | /api/forum/qa/question/{questionId}            | 问题内容编辑       |
-| PUT      | /api/forum/qa/question/addViewCnt/{questionId} | 增加问题浏览数     |
-| DELETE   | /api/forum/qa/question/{questionId}            | 删除问题           |
+| 请求类型 | PATH                                             | 描述                     |
+| -------- | ------------------------------------------------ | ------------------------ |
+| GET      | /api/forum/qa/question                           | 查询问题列表             |
+| GET      | /api/forum/qa/question/{questionId}              | 查询单个问题的信息       |
+| GET      | /api/forum/qa/question/user/{userPhone}          | 查询用户提出的问题       |
+| POST     | /api/forum/qa/question                           | 新增问题                 |
+| PUT      | /api/forum/qa/question/{questionId}              | 问题内容编辑             |
+| PUT      | /api/forum/qa/question/addViewCnt/{questionId}   | 增加问题浏览数           |
+| DELETE   | /api/forum/qa/question/{questionId}              | 删除问题                 |
+| GET      | /api/forum/qa/question/favorite/{questionId}     | 返回用户是否收藏了该问题 |
+| GET      | /api/forum/qa/question/favorite/user/{userPhone} | 返回用户收藏的问题       |
+| POST     | /api/forum/qa/question/favorite/{questionId}     | 用户新增收藏             |
+| DELETE   | /api/forum/qa/question/favorite/{questionId}     | 用户取消收藏             |
 
 
 
@@ -258,6 +262,134 @@
 
 
 
+### GET  /api/forum/qa/question/favorite/{questionId}  返回用户是否收藏了该问题
+
+#### Request
+
+**路由参数 URL Params**
+
+
+| Key        | Value  | Required | Description |
+| ---------- | ------ | -------- | ----------- |
+| questionId | bigint | 是       | 问题id      |
+
+**查询参数 Query Params**
+
+
+| Key       | Value  | Required | Description  |
+| --------- | ------ | -------- | ------------ |
+| userPhone | bigint | 是       | 用户电话号码 |
+
+#### Response
+
+~~~json
+{
+	"st": 0,
+	"msg": "",
+	"data": true // or false
+}
+~~~
+
+
+
+### GET  /api/forum/qa/question/favorite/user/{userPhone}  返回用户收藏的问题
+
+#### Request
+
+**路由参数 URL Params**
+
+
+| Key       | Value  | Required | Description  |
+| --------- | ------ | -------- | ------------ |
+| userPhone | bigint | 是       | 用户电话号码 |
+
+**查询参数 Query Params**
+
+
+| Key      | Value | Required | Description      |
+| -------- | ----- | -------- | ---------------- |
+| pageSize | int   | 是       | 分页中一页的容量 |
+| pageNo   | int   | 是       | 需要获取页的序数 |
+
+#### Response
+
+~~~json
+{
+	"st": 0,
+	"msg": "",
+	"data": {
+    	"total": 2,
+		"questions": 
+        [
+            {"questionId": 1, "title":"为什么", "answerCnt": 12, "favoriteTime": timestamp},
+            {"questionId": 2, "title":"不懂就问", "answerCnt": 13, "favoriteTime": timestamp}
+        ]
+    }
+}
+~~~
+
+
+
+### POST  /api/forum/qa/question/favorite/{questionId}  用户新增收藏
+
+#### Request
+
+**路由参数 URL Params**
+
+
+| Key        | Value  | Required | Description |
+| ---------- | ------ | -------- | ----------- |
+| questionId | bigint | 是       | 问题id      |
+
+**请求头部 Header**
+
+
+| Key       | Value  | Required | Description  |
+| --------- | ------ | -------- | ------------ |
+| userPhone | bigint | 是       | 用户电话号码 |
+
+#### Response
+
+~~~json
+{
+	"st": 0,
+	"msg": "",
+	"data": null
+}
+~~~
+
+
+
+### DELETE  /api/forum/qa/question/favorite/{questionId}  用户取消收藏
+
+#### Request
+
+**路由参数 URL Params**
+
+
+| Key        | Value  | Required | Description |
+| ---------- | ------ | -------- | ----------- |
+| questionId | bigint | 是       | 问题id      |
+
+**请求主体 Body**
+
+
+| Key       | Value  | Required | Description  |
+| --------- | ------ | -------- | ------------ |
+| userPhone | bigint | 是       | 用户电话号码 |
+
+#### Response
+
+~~~json
+{
+	"st": 0,
+	"msg": "",
+	"data": null
+}
+~~~
+
+
+
 ## 数据表定义
 
 ### healthguide_forum_qa_question
@@ -283,3 +415,33 @@ insert into healthguide_forum_qa_question (title, user_name, user_phone, content
 select * from healthguide_forum_qa_question;
 drop table `healthguide_forum_qa_question`;
 ```
+
+
+
+### healthguide_forum_qa_question_favorite
+
+```mysql
+create table `healthguide_forum_qa_question_favorite` (
+   	`question_id` bigint not null comment '问题ID',
+    `user_phone` varchar(40) not null comment '收藏者ID',
+    `title` varchar(40) not null comment '问题标题',
+    `answer_cnt` int not null comment '在收藏问题时的问题回答数',
+    `favorite_time` datetime not null DEFAULT CURRENT_TIMESTAMP comment '收藏时间',
+    primary key (`question_id`, `user_phone`),
+    key `idx_userphone` (`user_phone`)
+) engine=InnoDB default charset=utf8mb4 comment='健康论坛问题收藏';
+
+insert into healthguide_forum_qa_question_favorite (question_id, user_phone, title, answer_cnt) values
+('1','18888888888', '为什么', '12'),
+('2','18888888888', '不懂就问', '13');
+
+select * from healthguide_forum_qa_question_favorite;
+drop table `healthguide_forum_qa_question_favorite`;
+```
+
+#### 备注
+
+储存问题收藏时的回答数是为了判断哪些问题有新回答（前端来判断hhh，就不给后端搞复杂东西了）。
+
+如果用户进去看有新回答的问题，前端会把收藏删除再新增，这样 `answer_cnt` 就和问题表那边一致，下次前端查询就知道问题没有新回答。
+
