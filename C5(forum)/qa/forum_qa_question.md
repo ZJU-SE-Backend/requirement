@@ -8,7 +8,7 @@
 
 | 请求类型 | PATH                                             | 描述                     |
 | -------- | ------------------------------------------------ | ------------------------ |
-| GET      | /api/forum/qa/question                           | 查询问题列表             |
+| GET      | /api/forum/qa/question/{session}                 | 查询问题列表             |
 | GET      | /api/forum/qa/question/{questionId}              | 查询单个问题的信息       |
 | GET      | /api/forum/qa/question/user/{userPhone}          | 查询用户提出的问题       |
 | POST     | /api/forum/qa/question                           | 新增问题                 |
@@ -24,9 +24,16 @@
 
 ## API文档
 
-### GET  /api/forum/qa/question  查询问题列表
+### GET  /api/forum/qa/question/{session}  查询问题列表
 
 #### Request
+
+**路由参数 URL Params**
+
+
+| Key     | Value   | Required | Description |
+| ------- | ------- | -------- | ----------- |
+| session | tinyint | 是       | 问题分区    |
 
 **查询参数 Query Params**
 
@@ -162,6 +169,7 @@
 
 | Key       | Value       | Required | Description |
 | --------- | ----------- | -------- | ----------- |
+| session   | tinyint     | 是       | 问题分区    |
 | title     | varchar(40) | 是       | 问题标题    |
 | userName  | varchar(40) | 是       | 用户        |
 | userPhone | varchar(40) | 是       | 用户ID      |
@@ -397,6 +405,7 @@
 ```mysql
 create table `healthguide_forum_qa_question` (
   `question_id` bigint not null auto_increment comment '问题ID',
+  `session` tinyint not null comment '问题分区',
   `title` varchar(40) not null comment '标题',
   `user_name` varchar(40) not null comment '用户姓名',
   `user_phone` varchar(40) not null comment '用户ID',
@@ -406,15 +415,20 @@ create table `healthguide_forum_qa_question` (
   `create_time` datetime not null DEFAULT CURRENT_TIMESTAMP comment '创建时间',
   `update_time` datetime not null DEFAULT CURRENT_TIMESTAMP comment '最后编辑时间' ON UPDATE CURRENT_TIMESTAMP,
   primary key (`question_id`),
-  key `idx_userphone` (`user_phone`)
+  key `idx_userphone` (`user_phone`),
+  key `idx_session` (`session`)
 ) engine=InnoDB default charset=utf8mb4 comment='健康论坛提问';
 
-insert into healthguide_forum_qa_question (title, user_name, user_phone, content, answer_cnt, view_cnt) values 
-('为什么','卢本伟','18888888888','大家好','1','12'),
-('不懂就问','卢本伟','18888888888','大家好2','12','13');                                                                                                           
+insert into healthguide_forum_qa_question (title, `session`, user_name, user_phone, content, answer_cnt, view_cnt) values 
+('为什么',1,'卢本伟','18888888888','大家好','1','12'),
+('不懂就问',2,'卢本伟','18888888888','大家好2','12','13');                                                                                                           
 select * from healthguide_forum_qa_question;
 drop table `healthguide_forum_qa_question`;
 ```
+
+#### 备注
+
+新增的分区仅在返回列表和新增问题时有用，其他地方都不做使用。
 
 
 
