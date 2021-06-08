@@ -36,8 +36,6 @@
 | pageSize | int   | 是       | 分页中一页的容量 |
 | pageNo   | int   | 是       | 需要获取页的序数 |
 
-
-
 #### Response
 
 ~~~json
@@ -46,7 +44,7 @@
 	"msg": "",
 	"data": {
     	"total": 2,
-		"posts": 
+		"postReplys": 
         [
             {"replyId": 1, "content": "哈哈哈"},
             {"replyId": 2, "content": "嘿嘿嘿"}
@@ -55,7 +53,7 @@
 }
 ~~~
 
-#### 
+
 
 ### POST  /api/forum/report/post/reply/{replyId}  举报贴文回复
 
@@ -76,7 +74,7 @@
 }
 ~~~
 
-#### 
+
 
 ### DELETE  /api/forum/report/post/reply/{replyId}  删除举报
 
@@ -97,7 +95,7 @@
 }
 ~~~
 
-#### 
+
 
 ### GET  /api/forum/report/qa/answer  查看被举报的回答列表
 
@@ -111,8 +109,6 @@
 | pageSize | int   | 是       | 分页中一页的容量 |
 | pageNo   | int   | 是       | 需要获取页的序数 |
 
-
-
 #### Response
 
 ~~~json
@@ -121,7 +117,7 @@
 	"msg": "",
 	"data": {
     	"total": 2,
-		"posts": 
+		"qas": 
         [
             {"answerId": 1, "content": "哈哈哈"},
             {"answerId": 2, "content": "嘿嘿嘿"}
@@ -130,7 +126,7 @@
 }
 ~~~
 
-#### 
+
 
 ### POST  /api/forum/report/qa/answer/{answerId}  举报回答
 
@@ -151,7 +147,7 @@
 }
 ~~~
 
-#### 
+
 
 ### DELETE  /api/forum/report/qa/answer/{answerId}  删除举报
 
@@ -172,7 +168,7 @@
 }
 ~~~
 
-#### 
+
 
 ### GET  /api/forum/report/qa/answer/reply  查看被举报的回答回复列表
 
@@ -186,8 +182,6 @@
 | pageSize | int   | 是       | 分页中一页的容量 |
 | pageNo   | int   | 是       | 需要获取页的序数 |
 
-
-
 #### Response
 
 ~~~json
@@ -196,7 +190,7 @@
 	"msg": "",
 	"data": {
     	"total": 2,
-		"posts": 
+		"qaReplys": 
         [
             {"replyId": 1, "content": "哈哈哈"},
             {"replyId": 2, "content": "嘿嘿嘿"}
@@ -205,7 +199,7 @@
 }
 ~~~
 
-#### 
+
 
 ### POST  /api/forum/report/qa/answer/reply/{replyId}  举报回答回复
 
@@ -226,7 +220,7 @@
 }
 ~~~
 
-#### 
+
 
 ### DELETE  /api/forum/report/qa/answer/reply/{replyId}  删除举报
 
@@ -247,7 +241,7 @@
 }
 ~~~
 
-#### 
+
 
 ## 数据表定义
 
