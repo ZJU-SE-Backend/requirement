@@ -1,16 +1,17 @@
-# 用户个人信息查询
-
 ## 需求描述
 
 ### 需求介绍
 
-用户查看自己的个人信息。
+用户个人信息界面，功能包括：注册；查看基本信息；修改基本信息；修改用户密码
 
 ### API列表
 
 | 请求类型  | PATH                                                          | 描述               |
 | -------- | ------------------------------------------------------------  | ----------------  |
-| GET      | /api/healthrecord/personInfo/{userPhone}          | 查看用户基本信息     |
+| GET      | /api/healthrecord/personInfo/{userPhone}                      | 查看用户基本信息     |
+| POST     | /api/join                                                     | 注册新用户          |
+| POST     | /api/cgpswd                                                   | 修改用户密码        |
+| POST     | /api/cginfo                                                   | 修改用户信息        |
 
 
 
@@ -47,6 +48,112 @@ from person_info
 where user_phone = XXX;
 ~~~
 返回所有用户个人信息。(权限等级用于判断是否显示病历信息：病人 -> 显示病历，医生/游客 -> 不显示病历)
+
+
+### POST /api/join  注册新用户
+**数据 Data**
+| Key | Value | Required | Description |
+| ----- | ------- | ---------- | ------------- |
+| userPhone   | string    | y     | 用户id     |
+| userName     | string   | y     | 用户姓名    |
+| password     | string   | y     | 用户密码    |
+| authType      | tinyint | y     | 用户权限    |
+#### Response
+~~~json
+{
+	"st": 0,
+	"msg": "",
+	"data":
+    {
+        "result":true
+    }
+}
+~~~
+
+~~~json
+{
+	"st": 0,
+	"msg": "",
+	"data":
+    {
+        "result":false
+    }
+}
+~~~
+#### 数据库操作
+就是在user_info表里添加一项，其余未出现的字段均先默认为null，`user_gender`默认为`male`，`auth_type`默认为1
+
+### POST /api/cgpswd  修改用户密码
+**数据 Data**
+| Key | Value | Required | Description |
+| ----- | ------- | ---------- | ------------- |
+| userPhone   | string    | y     | 用户id     |
+| password     | string   | y     | 用户密码    |
+#### Response
+~~~json
+{
+	"st": 0,
+	"msg": "",
+	"data":
+    {
+        "result":true
+    }
+}
+~~~
+
+~~~json
+{
+	"st": 0,
+	"msg": "",
+	"data":
+    {
+        "result":false
+    }
+}
+~~~
+#### 数据库操作
+操作就是在user_info中，将手机号为userPhone的一项对应的密码修改为password
+（因为用户已登录，所以无需再次输入原来的密码）
+
+### POST /api/cginfo  修改用户信息
+**数据 Data**
+| Key | Value | Required | Description |
+| ----- | ------- | ---------- | ------------- |
+| userPhone     | string    | y     | 用户id     |
+| userName      | string    | y     | 用户姓名    |
+| userEmail     | string    | y     | 用户邮箱    |
+| userGender    | string    | y     | 用户性别    |
+| userHeight    | string    | y     | 用户身高    |
+| userWeight    | string    | y     | 用户体重    |
+| userAge       | string    | y     | 用户年龄    |
+| userIDnumber  | string    | y     | 用户身份证号 |
+| userSocnumber | string    | y     | 用户社保卡号 |
+
+#### Response
+~~~json
+{
+	"st": 0,
+	"msg": "",
+	"data":
+    {
+        "result":true
+    }
+}
+~~~
+
+~~~json
+{
+	"st": 0,
+	"msg": "",
+	"data":
+    {
+        "result":false
+    }
+}
+~~~
+
+#### 数据库操作
+在user_info将手机号为userPhone的一项，将个人信息重置，健康码等级与auth_type不允许用户个人修改因此没有加入
 
 
 ## 数据表
